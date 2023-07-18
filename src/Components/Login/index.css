@@ -1,0 +1,19 @@
+html{
+    height: 100%;
+    background-image: linear-gradient(120deg, #d4fc79 0%, #96e6a1 100%);
+}
+#LoginMainWindow{
+    box-sizing: border-box;
+    border: #7fccde dotted 3px;
+    margin: 15% auto auto auto;
+    width: 33%;
+    padding :10px;
+    text-align: center;
+}
+#LoginMainWindow h2{
+    color:  #f68084;
+}
+.LoginInput{
+    margin-top: 5px;
+    margin-bottom:5px;;
+}

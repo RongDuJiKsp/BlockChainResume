@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import Login from "./Components/Login";
+import ProjectRouter from "./Components/ProjectRouter"
+import { useState} from "react";
+import {useNavigate} from "react-router-dom";
+import "./App.css"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default function App() {
+    const LoginStateEnum = {
+        none: "none",
+        root: "root",
+        employer: "employer",
+        employee: "employee",
+        register:"register",
+    }
+    const [loginState, setLoginState] = useState(LoginStateEnum.none);
+    const jump=useNavigate();
+    const logoutfunc = () => {
+        setLoginState(LoginStateEnum.none);
+        setUserId("");
+        setPassword("");
+        jump("/");
+    }
+
+    const [userId, setUserId] = useState("");
+    const [userPassword, setPassword] = useState("");
+
+    return loginState === LoginStateEnum.none ? <Login methodpack={{
+        setLoginState: setLoginState,
+        setUserId: setUserId,
+        setPassword: setPassword,
+        StEnum: LoginStateEnum,
+    }}/> : <ProjectRouter datapack={{
+        loginState: loginState,
+        userId: userId,
+        userPassword: userPassword,
+        logoutfunc:logoutfunc,
+    }}/>
+
 }
-
-export default App;
