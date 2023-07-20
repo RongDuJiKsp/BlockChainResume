@@ -3,15 +3,9 @@ import ProjectRouter from "./Components/ProjectRouter"
 import { useState} from "react";
 import {useNavigate} from "react-router-dom";
 import "./App.css"
+import {LoginStateEnum} from "./CheckMethod/enums";
 
 export default function App() {
-    const LoginStateEnum = {
-        none: "none",
-        root: "root",
-        employer: "employer",
-        employee: "employee",
-        register:"register",
-    }
     const [loginState, setLoginState] = useState(LoginStateEnum.none);
     const jump=useNavigate();
     const logoutfunc = () => {
@@ -33,6 +27,7 @@ export default function App() {
         loginState: loginState,
         userId: userId,
         userPassword: userPassword,
+        StEnum: LoginStateEnum,
         logoutfunc:logoutfunc,
     }}/>
 
