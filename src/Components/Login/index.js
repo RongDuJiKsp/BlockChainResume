@@ -5,35 +5,36 @@ import "../../ModelCSS/Button.css"
 import {Form, Input, Radio} from "antd";
 import {useForm} from "antd/lib/form/Form";
 import {useState} from "react";
+import {LoginStateEnum} from "../../CheckMethod/enums";
 
 export default function Login(props) {
     const [form] = useForm();
     const jump = useNavigate();
-    const [loginIdentify, setLoginIdentify] = useState(props.methodpack.StEnum.root);
+    const [loginIdentify, setLoginIdentify] = useState(LoginStateEnum.root);
     const submit = () => {
-        console.log();
+        jump("/");
         props.methodpack.setUserId(form.getFieldValue("userid"));
         props.methodpack.setPassword(form.getFieldValue("userpassword"));
         props.methodpack.setLoginState(loginIdentify);
     }
     const signup = () => {
-        props.methodpack.setLoginState(props.methodpack.StEnum.register);
+        props.methodpack.setLoginState(LoginStateEnum.register);
         jump("/signup");
     }
     return (
         <div id={"LoginMainWindow"}>
             <img src={require("./logo.png")} alt={"null"} draggable={false}/>
             <Radio.Group style={{marginTop:10,marginBottom :20}}
-                         defaultValue={props.methodpack.StEnum.root}
+                         defaultValue={LoginStateEnum.root}
                          onChange={(e)=>{setLoginIdentify(e.target.value)}}
             >
-                <Radio.Button value={props.methodpack.StEnum.root}>
+                <Radio.Button value={LoginStateEnum.root}>
                     以Root身份登录
                 </Radio.Button>
-                <Radio.Button value={props.methodpack.StEnum.employer}>
+                <Radio.Button value={LoginStateEnum.employer}>
                     以雇主身份登录
                 </Radio.Button>
-                <Radio.Button value={props.methodpack.StEnum.employee}>
+                <Radio.Button value={LoginStateEnum.employee}>
                     以雇员身份登录
                 </Radio.Button>
             </Radio.Group>

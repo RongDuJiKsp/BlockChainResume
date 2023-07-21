@@ -1,46 +1,22 @@
-import {Card, Col, Row} from "antd";
 import {Content} from "antd/es/layout/layout";
-
 import "./index.css"
-import "../../ModelCSS/Button.css"
+import EmployeePage from "../EmployeePage";
+import EmployerPage from "../EmployerPage";
+import RootPage from "../RootPage";
 
 export default function Home(props) {
-
+    const StatusGiveAway = {
+        "root": <RootPage datapack={props.datapack}/>,
+        "employer": <EmployerPage datapack={props.datapack}/>,
+        "employee": <EmployeePage datapack={props.datapack}/>,
+    }
     return (
-<div>
-    <Content style={{height:"700px"}} className={"HomeContent"}>
-       <div id={"HomeCardList"}>
-           <Row>
-               <Col span={8}>
-                   <Card hoverable={true} title="发起一个请求" extra={
-                       <button className={"btn green small"}>Jump</button>
-                   } style={{width: 300, marginLeft: "5px"}}>
-                       <p>Card content</p>
-                       <p>Card content</p>
-                       <p>Card content</p>
-                   </Card>
-               </Col>
-               <Col span={8}>
-                   <Card hoverable={true} title="Default size card" extra={
-                       <button className={"btn green small"}></button>
-                   } style={{width: 300, marginLeft: "5px"}}>
-                       <p>Card content</p>
-                       <p>Card content</p>
-                       <p>Card content</p>
-                   </Card>
-               </Col>
-               <Col span={8}>
-                   <Card hoverable={true} title="Default size card" extra={
-                       <button className={"btn green small"}></button>
-                   } style={{width: 300, marginLeft: "5px"}}>
-                       <p>Card content</p>
-                       <p>Card content</p>
-                       <p>Card content</p>
-                   </Card>
-               </Col>
-           </Row>
-       </div>
-    </Content>
-</div>
+        <div>
+            <Content style={{height: "700px"}} className={"HomeContent"}>
+                <div id={"HomeCardList"}>
+                    {StatusGiveAway[props.datapack.loginState]}
+                </div>
+            </Content>
+        </div>
     )
 }
