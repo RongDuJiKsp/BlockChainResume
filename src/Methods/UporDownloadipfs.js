@@ -12,6 +12,7 @@ exports.add = (addPath) => {
                     reject(err);
                 } else {
                     resolve(files[0].hash);
+                    //这就是上传IPFS后返回的hash值
                 }
             })
         } catch (ex) {

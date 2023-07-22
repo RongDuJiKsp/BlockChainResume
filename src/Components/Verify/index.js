@@ -63,10 +63,6 @@ export default function Verify(props) {
                         <Form.Item name={"id"}>
                             <Input></Input>
                         </Form.Item>
-                        <h3>在此复制选择的ipfs</h3>
-                        <Form.Item name={"ipfs"}>
-                            <TextArea autoSize={{minRows: 2}}></TextArea>
-                        </Form.Item>
                     </Form>
                     <div style={{marginLeft:"25%"}}>
                         <Popconfirm title={"请确认是否下载简历"} onConfirm={clickDownload}>

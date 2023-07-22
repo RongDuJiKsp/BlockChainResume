@@ -12,6 +12,7 @@
     "@web3-react/injected-connector": "^6.0.7",
     "antd": "^5.7.0",
     "axios": "^1.4.0",
+    "gm-crypto": "^0.1.12",
     "ipfs-api": "^26.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

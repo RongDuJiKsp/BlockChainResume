@@ -2,7 +2,6 @@ import {Card, Col, Form, Popconfirm, Row} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import {useForm} from "antd/lib/form/Form";
 import "../../ModelCSS/Button.css"
-import Trading from "../../Methods/Trading";
 import Dragger from "antd/es/upload/Dragger";
 import {InboxOutlined} from "@ant-design/icons";
 import Download from "../../Methods/Download";
@@ -15,7 +14,6 @@ export default function EmployeePage(props) {
         function () {
             let a = FormList[0].getFieldValue("ipfs");
             console.log(a);
-            // Trading.upLoadEmployeeIpfs();
 
         }, function () {
             let a = FormList[1].getFieldValue("ipfs");
