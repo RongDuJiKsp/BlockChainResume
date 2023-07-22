@@ -1,6 +1,6 @@
 import {Header} from "antd/es/layout/layout";
 import {Tag} from "antd";
-import {LoginStateEnum} from "../../CheckMethod/enums";
+import {LoginStateEnum} from "../../Methods/enums";
 export default function HeaderBar(props) {
     return (
             <Header>

@@ -5,7 +5,7 @@ import "../../ModelCSS/Button.css"
 import {Form, Input, Radio} from "antd";
 import {useForm} from "antd/lib/form/Form";
 import {useState} from "react";
-import {LoginStateEnum} from "../../CheckMethod/enums";
+import {LoginStateEnum} from "../../Methods/enums";
 
 export default function Login(props) {
     const [form] = useForm();

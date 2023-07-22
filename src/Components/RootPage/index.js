@@ -20,7 +20,7 @@ export default function RootPage() {
                            }).then()
                            return;
                        }
-                       Jump("/root");
+                       Jump("/root?key="+ethKey);
                    }}>跳转</button>
                } style={{width: 300, marginLeft: "35%"}}>
                    <p>请在此黏贴您的ETH私钥</p>

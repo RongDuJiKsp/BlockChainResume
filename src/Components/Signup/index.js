@@ -15,8 +15,8 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useForm} from "antd/lib/form/Form";
 import TextArea from "antd/es/input/TextArea";
-import {ConfigEnum, ValidateStatusEnum} from "../../CheckMethod/enums";
-import CheckObj from "../../CheckMethod/CheckObj";
+import {ConfigEnum, ValidateStatusEnum} from "../../Methods/enums";
+import CheckObj from "../../Methods/CheckObj";
 
 export default function Signup(props) {
     const [form] = useForm()

@@ -12,7 +12,7 @@ export default function Home(props) {
     }
     return (
         <div>
-            <Content style={{height: "700px"}} className={"HomeContent"}>
+            <Content style={{height: "900px"}} className={"HomeContent"}>
                 <div id={"HomeCardList"}>
                     {StatusGiveAway[props.datapack.loginState]}
                 </div>
