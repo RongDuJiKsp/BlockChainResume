@@ -13,5 +13,6 @@ export const LoginStateEnum={
     register:"register",
 }
 export const ConfigEnum={
-    MinPasswordLength:6
+    MinPasswordLength:6,
+    DefaultDownloadPath:"C:\\"
 }

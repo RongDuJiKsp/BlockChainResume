@@ -64,8 +64,9 @@ const UploadETHresume = function (
     ];
     const contractAddress = '0x7242CC17cDda34Af23409B6D829ce991162729A0';
     const myContract = new web3.eth.Contract(abi, contractAddress);
+
     myContract.methods.registerResume(cryptHash,id,ethAddress)
-        .send({ from: ethAddress,gas:1000000}).on('receipt', function(receipt) {
+        .send({ from: ethAddress,gas:"1000000"}).on('receipt', function(receipt) {
         console.log(receipt);
     })
 

@@ -3,7 +3,7 @@ import ProjectRouter from "./Components/ProjectRouter"
 import { useState} from "react";
 import {useNavigate} from "react-router-dom";
 import "./App.css"
-import {LoginStateEnum} from "./Methods/enums";
+import {LoginStateEnum} from "./Data/enums";
 
 export default function App() {
     const [loginState, setLoginState] = useState(LoginStateEnum.none);

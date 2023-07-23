@@ -1,5 +1,4 @@
 import {Content} from "antd/es/layout/layout";
-
 import "./index.css"
 import "../../ModelCSS/Button.css"
 import {Button, Form, Result, Steps} from "antd";
@@ -15,13 +14,14 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useForm} from "antd/lib/form/Form";
 import TextArea from "antd/es/input/TextArea";
-import {ConfigEnum, ValidateStatusEnum} from "../../Methods/enums";
+import {ConfigEnum, ValidateStatusEnum} from "../../Data/enums";
 import CheckObj from "../../Methods/CheckObj";
+// import {spawn} from "child_process";
 
 export default function Signup(props) {
     const [form] = useForm()
     const [finishStatus, setFinishStatus] = useState(0);
-    const [helpStatus,setHelpStatus]=useState("")
+    const [helpStatus, setHelpStatus] = useState("")
     const [tmpUpUserId, setTmpUpUserId] = useState("");
     const [tmpUpUserPassword, setTmpUpUserPassword] = useState("");
     const [tmpUpUserKey, setTmpUpUserKey] = useState("");
@@ -31,11 +31,10 @@ export default function Signup(props) {
         else if (now === my) return "process"
         else return "wait";
     }
-    const SuccessTitle="你的ID为 " +tmpUpUserId+
-        " 你的密码为" +tmpUpUserPassword+
-        " 请确认输入是否正确并截图！！！" +
-        " 上链之后无法更改！  如有误请Logout重新注册！"
-    const SubmitTrain=()=>{
+    const SuccessTitle = "你的ID为 " + tmpUpUserId +
+        " 你的密码为" + tmpUpUserPassword
+    const SubmitTrain = () => {
+        // const pythonProcess = spawn('python', ['script.py']);//用于运行python文件，但目前报错待解决
 
     }
     const Jump = useNavigate();
@@ -48,7 +47,7 @@ export default function Signup(props) {
         type: "text",
         func: () => {
             //这里进行身份证的合法校验
-            if (tmpUpUserId===""||!CheckObj.identity_card.test(tmpUpUserId)) {
+            if (tmpUpUserId === "" || !CheckObj.identity_card.test(tmpUpUserId)) {
                 setValidateStatus(ValidateStatusEnum.error);
                 setHelpStatus("请检查身份证号码是否合法！");
                 return;
@@ -68,9 +67,10 @@ export default function Signup(props) {
         type: "text",
         func: () => {
             //这里进行密码的合法校验
-            if (tmpUpUserPassword.length<ConfigEnum.MinPasswordLength) {
+            if (tmpUpUserPassword.length < ConfigEnum.MinPasswordLength) {
                 setValidateStatus(ValidateStatusEnum.error);
                 setHelpStatus("密码不得小于6位！");
+                console.log("99");
                 return;
             }
             setValidateStatus(ValidateStatusEnum.success);
@@ -88,7 +88,7 @@ export default function Signup(props) {
         type: "text",
         func: () => {
             //这里进行秘钥的合法校验
-            if (tmpUpUserKey==="") {
+            if (tmpUpUserKey === "") {
                 setValidateStatus(ValidateStatusEnum.error);
                 setHelpStatus("秘钥不得为空！");
                 return;
@@ -104,7 +104,7 @@ export default function Signup(props) {
     }, {
         func: () => {
             SubmitTrain();
-           setFinishStatus(4);
+            setFinishStatus(4);
         },
         rand: () => {
             return (
@@ -141,7 +141,7 @@ export default function Signup(props) {
         }
     }]
     const PageRanter = (state) => {
-        if (state< Submit[0].LastItemNumber) return (
+        if (state < Submit[0].LastItemNumber) return (
             <div style={{marginLeft: "33.3%"}}>
                 <div className={"SignupInp"}>
                     <h1>{Submit[state].tips}</h1>
@@ -191,7 +191,7 @@ export default function Signup(props) {
                         title: '完成',
                         description: "",
                         status: MappingStatus(finishStatus, 4),
-                        icon: <LikeOutlined />
+                        icon: <LikeOutlined/>
                     },
 
                 ]} style={{marginTop: "50px"}}></Steps>
