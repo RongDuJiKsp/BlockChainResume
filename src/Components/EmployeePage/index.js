@@ -5,17 +5,18 @@ import "../../ModelCSS/Button.css"
 import Dragger from "antd/es/upload/Dragger";
 import {InboxOutlined} from "@ant-design/icons";
 import Download from "../../Methods/Download";
-
+import {upordownloadIPFS} from "../../Methods/upordownloadIPFS";
 export default function EmployeePage(props) {
     const FormList = [useForm()[0], useForm()[0], useForm()[0]];
     const ClickList = [
         function () {
-            let a = FormList[0].getFieldValue("ipfs");
-            console.log(a);
+            let file = FormList[0].getFieldValue("ipfs");
+             // upordownloadIPFS.add(file).then(r=>{
+             //
+             // });
 
         }, function () {
-            let a = FormList[1].getFieldValue("ipfs");
-            console.log(a);
+            let file = FormList[1].getFieldValue("ipfs");
         }, function () {
             const blob = new Blob(["content"], {type: 'text/plain'});
             Download(blob);
