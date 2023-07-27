@@ -1,5 +1,3 @@
-import {SM4} from "gm-crypto";
-
 export default function cryptoofhash(randomKey, hash) {
     const {SM4} = require('gm-crypto')
 
@@ -20,7 +18,7 @@ export default function cryptoofhash(randomKey, hash) {
         outputEncoding: 'utf8'
     })
 //解密
-
+    return decryptedData;
 }
 
 

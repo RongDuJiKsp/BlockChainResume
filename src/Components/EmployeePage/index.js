@@ -1,4 +1,4 @@
-import {Card, Col, Form, Popconfirm, Row} from "antd";
+import {Card, Col, Form, Input, Popconfirm, Row} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import {useForm} from "antd/lib/form/Form";
 import "../../ModelCSS/Button.css"
@@ -7,8 +7,6 @@ import {InboxOutlined} from "@ant-design/icons";
 import Download from "../../Methods/Download";
 
 export default function EmployeePage(props) {
-    const cancel = () => {
-    }
     const FormList = [useForm()[0], useForm()[0], useForm()[0]];
     const ClickList = [
         function () {
@@ -29,14 +27,14 @@ export default function EmployeePage(props) {
                 <Card hoverable={true} title="上传简历" extra={
                     <Popconfirm
                         title="上传简历" description="请确认个人信息是否无误，确认上传？"
-                        onConfirm={ClickList[0]} onCancel={cancel} okText={"确认"} cancelText={"取消"}
+                        onConfirm={ClickList[0]}  okText={"确认"} cancelText={"取消"}
                     >
                         <button className={"btn green small"}>上传简历</button>
                     </Popconfirm>
                 } style={{width: 300, marginLeft: "5px"}}>
                     <Form form={FormList[0]}>
                         <Form.Item name={"ipfs"}>
-                            <Dragger beforeUpload={() => {
+                            <Dragger  valuePropName="fileList" beforeUpload={() => {
                                 return false;
                             }}>
                                 <p className="ant-upload-drag-icon">
@@ -49,31 +47,33 @@ export default function EmployeePage(props) {
                         <Form.Item name={"ethKey"}>
                             <TextArea autoSize={{minRows: 2, maxRows: 8}}/>
                         </Form.Item>
+                        <p>请在此黏贴您的s</p>
+                        <Form.Item name={"s"}>
+                            <TextArea autoSize={{minRows: 2, maxRows: 8}}/>
+                        </Form.Item>
                     </Form>
                 </Card>
             </Col>
             <Col span={8}>
-                <Card hoverable={true} title="更新简历" extra={
+                <Card hoverable={true} title="简历授权" extra={
                     <Popconfirm
-                        title="更新简历" description="请确认个人信息是否无误，确认更新？"
-                        onConfirm={ClickList[1]} onCancel={cancel} okText={"确认"} cancelText={"取消"}
+                        title="授权公司" description="请确认个人信息是否无误以及公司是否可信？"
+                        onConfirm={ClickList[1]} okText={"确认"} cancelText={"取消"}
                     >
-                        <button className={"btn green small"}>确认并更新简历</button>
+                        <button className={"btn green small"}>确认并授权简历</button>
                     </Popconfirm>
                 } style={{width: 300, marginLeft: "5px"}}>
                     <Form form={FormList[1]}>
-                        <Form.Item name={"ipfs"}>
-                            <Dragger beforeUpload={() => {
-                                return false;
-                            }}>
-                                <p className="ant-upload-drag-icon">
-                                    <InboxOutlined/>
-                                </p>
-                                <p className="ant-upload-text">点击或拖入文件</p>
-                            </Dragger>
+                        <p>请在此黏贴所授权的公司id</p>
+                        <Form.Item name={"cid"}>
+                            <Input/>
                         </Form.Item>
                         <p>请在此黏贴您的ETH私钥</p>
                         <Form.Item name={"ethKey"}>
+                            <TextArea autoSize={{minRows: 2, maxRows: 8}}/>
+                        </Form.Item>
+                        <p>请在此黏贴您的s</p>
+                        <Form.Item name={"s"}>
                             <TextArea autoSize={{minRows: 2, maxRows: 8}}/>
                         </Form.Item>
                     </Form>

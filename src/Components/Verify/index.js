@@ -60,7 +60,7 @@ export default function Verify(props) {
                     <Form form={form}>
                         <h4>请确认选中的id</h4>
                         <Form.Item name={"id"}>
-                            <Input></Input>
+                            <Input readOnly></Input>
                         </Form.Item>
                     </Form>
                     <div style={{marginLeft:"25%"}}>
@@ -69,11 +69,11 @@ export default function Verify(props) {
                         </Popconfirm>
                     </div>
                     <div>
-                        <Popconfirm title={"请确认是否拒绝"} onConfirm={DelyMethod}>
-                            <button className={"btn red"}>拒绝</button>
+                        <Popconfirm title={"请确认是否打回简历"} onConfirm={DelyMethod}>
+                            <button className={"btn red"}>简历打回</button>
                         </Popconfirm>
-                        <Popconfirm title={"请确认是否同意"} onConfirm={AcceptMethod}>
-                            <button className={"btn green"}>同意</button>
+                        <Popconfirm title={"请确认是否通过简历"} onConfirm={AcceptMethod}>
+                            <button className={"btn green"}>简历通过</button>
                         </Popconfirm>
                     </div>
                 </div>

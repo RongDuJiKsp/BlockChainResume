@@ -67,10 +67,6 @@ export default function EmployerPage() {
                         <Form.Item name={"id"}>
                             <Input></Input>
                         </Form.Item>
-                        <h4>请在此输入待查询人员提供的公钥</h4>
-                        <Form.Item name={"publicKey"}>
-                            <TextArea autoSize={{minRows: 2, maxRows: 8}}/>
-                        </Form.Item>
                         <p>请在此黏贴您的ETH私钥</p>
                         <Form.Item name={"ethKey"}>
                             <TextArea autoSize={{minRows: 2, maxRows: 8}}/>

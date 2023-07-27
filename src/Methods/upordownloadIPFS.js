@@ -1,12 +1,10 @@
 const ipfsAPI = require('ipfs-api');
 const ipfs = ipfsAPI({host: 'localhost', port: '5001', protocol: 'http'});
 //参数暂时不要填写
-const fs = require('fs');
-//传入要上传的文件路径
-exports.add = (addPath) => {
+//传入要上传到IPFS的文件的字节流
+exports.add = (buffer) => {
     return new Promise((resolve, reject) => {
         try {
-            let buffer = fs.readFileSync(addPath);
             ipfs.add(buffer, function (err, files) {
                 if (err || typeof files == "undefined") {
                     reject(err);
@@ -20,15 +18,15 @@ exports.add = (addPath) => {
         }
     })
 }
-//传入文件的hash地址以及要下载到哪个目录的路径
-exports.get = (hash, getPath) => {
+//传入文件的hash地址
+exports.get = (hash) => {
     return new Promise((resolve, reject) => {
         try {
             ipfs.get(hash, function (err, files) {
                 if (err || typeof files == "undefined") {
                     reject(err);
                 } else {
-                    fs.writeFileSync(getPath, files[0].content);
+                    //这个函数为下载文件对象的函数，传入字节流：(files[0].content);
                     resolve('ok');
                 }
             })
