@@ -41,17 +41,17 @@ export default function Signup(props) {
         }
         console.log(JSON.stringify(data))
         axios({
-            method:"post",
-            url:"http://localhost:8080/signup",
-            data:JSON.stringify(data),
+            method: "post",
+            url: "http://localhost:8080/signup",
+            data: JSON.stringify(data),
             headers: {"Content-Type": "application/json;charset=utf8"}
         }).then(r => {
             console.log(r);
-            if (r.status === 200&&r.data==="True") setFinishStatus(e => {
+            if (r.status === 200 && r.data === "True") setFinishStatus(e => {
                 return e + 1
             })
-           else {
-                form.setFieldValue("help", "提交失败，请重新点击提交按钮 错误为："+r.data )
+            else {
+                form.setFieldValue("help", "提交失败，请重新点击提交按钮 错误为：" + r.data)
                 setLoadings(pre => {
                     let tmp = [...pre];
                     tmp[0] = false;
@@ -154,8 +154,9 @@ export default function Signup(props) {
             return (
                 <>
                     <Form.Item name={"password"} validateStatus={validateStatus} help={helpStatus}>
-                        <Input.Password allowClear placeholder={this.inputHolder} onChange={this.submit}
-                                        style={{marginBottom: "20px"}}/>
+                        <Input.Password allowClear placeholder={this.inputHolder} onChange={this.submit}/>
+                    </Form.Item>
+                    <Form.Item name={"passwordc"} validateStatus={validateStatus} help={helpStatus}>
                         <Input.Password allowClear placeholder={this.inputHolderC} onChange={this.submitC}/>
                     </Form.Item>
 

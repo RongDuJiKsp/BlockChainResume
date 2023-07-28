@@ -6,20 +6,25 @@ import Dragger from "antd/es/upload/Dragger";
 import {InboxOutlined} from "@ant-design/icons";
 import Download from "../../Methods/Download";
 import {upordownloadIPFS} from "../../Methods/upordownloadIPFS";
+import {useState} from "react";
+import {ConfigEnum} from "../../Data/enums";
+
 export default function EmployeePage(props) {
     const FormList = [useForm()[0], useForm()[0], useForm()[0]];
+    const [nowFileIPFS, setNowFileIPFS] = useState("");
     const ClickList = [
         function () {
-            let file = FormList[0].getFieldValue("ipfs");
-             // upordownloadIPFS.add(file).then(r=>{
-             //
-             // });
-
         }, function () {
-            let file = FormList[1].getFieldValue("ipfs");
+            // let file = FormList[1].getFieldValue("ipfs");
         }, function () {
-            const blob = new Blob(["content"], {type: 'text/plain'});
-            Download(blob);
+            upordownloadIPFS.get(nowFileIPFS).then(r => {
+                let tmpBuffer = r.content.buffer;
+                console.log("#", tmpBuffer);
+                let file = new Blob([tmpBuffer],{
+                    type:ConfigEnum.SupposedFileType
+                });
+                Download(file,props.datapack.userId,ConfigEnum.SupposedFileType);
+            })
         },
     ]
     return (
@@ -28,15 +33,26 @@ export default function EmployeePage(props) {
                 <Card hoverable={true} title="上传简历" extra={
                     <Popconfirm
                         title="上传简历" description="请确认个人信息是否无误，确认上传？"
-                        onConfirm={ClickList[0]}  okText={"确认"} cancelText={"取消"}
+                        onConfirm={ClickList[0]} okText={"确认"} cancelText={"取消"}
                     >
                         <button className={"btn green small"}>上传简历</button>
                     </Popconfirm>
                 } style={{width: 300, marginLeft: "5px"}}>
                     <Form form={FormList[0]}>
                         <Form.Item name={"ipfs"}>
-                            <Dragger  valuePropName="fileList" beforeUpload={() => {
+                            <Dragger valuePropName="fileList" beforeUpload={() => {
                                 return false;
+                            }} onChange={(info) => {
+                                console.log(info.file);
+                                const filereader = new FileReader();
+                                filereader.readAsArrayBuffer(info.file);
+                                filereader.onload = () => {
+                                    upordownloadIPFS.add(Buffer.from(filereader.result)).then(r => {
+                                        console.log("file ipfs is" + r);
+                                        setNowFileIPFS(r);
+                                    });
+                                };
+
                             }}>
                                 <p className="ant-upload-drag-icon">
                                     <InboxOutlined/>

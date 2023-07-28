@@ -12,14 +12,20 @@ export const LoginStateEnum = {
     register: "register",
 }
 export const ConfigEnum = {
+    FrontEndPort:"3000",
+    BackendPort:"8080",
+    IPFSSystemPort:"5001",
     MinPasswordLength: 6,
-    DefaultDownloadPath: "C:\\"
+    SupposedFileType: "application/pdf",
+    FileType: {
+        "application/pdf": ".pdf"
+    }
 }
 export const ETHKeyEnum = {
     keys: [
         "114515",
         "1919810",
-        "1","2","3","5","66","999","489","edf","oo"
+        "1", "2", "3", "5", "66", "999", "489", "edf", "oo"
     ],
     keyNum: 10,
     nowKey: 0,
