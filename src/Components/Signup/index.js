@@ -42,7 +42,7 @@ export default function Signup(props) {
         console.log(JSON.stringify(data))
         axios({
             method: "post",
-            url: "http://localhost:8080/signup",
+            url: "http://localhost:" + ConfigEnum.BackendPort + "/signup",
             data: JSON.stringify(data),
             headers: {"Content-Type": "application/json;charset=utf8"}
         }).then(r => {
@@ -73,7 +73,7 @@ export default function Signup(props) {
         form.setFieldValue("ethkey", ETHKeyEnum.getKey());
     }
     const SubmitFresh = () => {
-        axios.get("http://localhost:8080/random1").then(r => {
+        axios.get("http://localhost:" + ConfigEnum.BackendPort + "/random1").then(r => {
             if (r.status === 200) {
                 console.log(r.data);
                 form.setFieldValue("s", r.data["randomnumber"]);

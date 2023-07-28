@@ -8,22 +8,32 @@ import Download from "../../Methods/Download";
 import {upordownloadIPFS} from "../../Methods/upordownloadIPFS";
 import {useState} from "react";
 import {ConfigEnum} from "../../Data/enums";
+import axios from "axios";
 
 export default function EmployeePage(props) {
     const FormList = [useForm()[0], useForm()[0], useForm()[0]];
     const [nowFileIPFS, setNowFileIPFS] = useState("");
     const ClickList = [
         function () {
+            let data = {
+                id: props.datapack.userId,
+                hash: nowFileIPFS
+            }
+            axios({
+                method: "post",
+                url: "http://localhost:" + ConfigEnum.BackendPort + "/delieve",
+                data: JSON.stringify(data),
+                headers: {"Content-Type": "application/json;charset=utf8"}
+            })
         }, function () {
             // let file = FormList[1].getFieldValue("ipfs");
         }, function () {
             upordownloadIPFS.get(nowFileIPFS).then(r => {
                 let tmpBuffer = r.content.buffer;
-                console.log("#", tmpBuffer);
-                let file = new Blob([tmpBuffer],{
-                    type:ConfigEnum.SupposedFileType
+                let file = new Blob([tmpBuffer], {
+                    type: ConfigEnum.SupposedFileType
                 });
-                Download(file,props.datapack.userId,ConfigEnum.SupposedFileType);
+                Download(file, props.datapack.userId, ConfigEnum.SupposedFileType);
             })
         },
     ]

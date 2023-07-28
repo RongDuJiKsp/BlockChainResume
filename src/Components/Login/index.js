@@ -5,7 +5,7 @@ import "../../ModelCSS/Button.css"
 import {Form, Input, Modal, Radio} from "antd";
 import {useForm} from "antd/lib/form/Form";
 import {useState} from "react";
-import {LoginStateEnum} from "../../Data/enums";
+import {ConfigEnum, LoginStateEnum} from "../../Data/enums";
 import axios from "axios";
 
 export default function Login(props) {
@@ -28,7 +28,7 @@ export default function Login(props) {
         axios({
             method:"post",
             data:JSON.stringify(data),
-            url:"http://localhost:8080/signin",
+            url:"http://localhost:"+ConfigEnum.BackendPort+"/signin",
             headers: {"Content-Type": "application/json;charset=utf8"}
         }).then(r => {
             if (r.data === "True") {
