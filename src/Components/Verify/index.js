@@ -26,14 +26,14 @@ export default function Verify(props) {
     const DelyMethod = () => {
     }
     const clickDownload = () => {
-        let chosenIDFinder = "['" + chosenID + "']";
-        let hashvalue = dataList[chosenIDFinder];
+        let hashvalue = dataList[chosenID];
+        console.log(chosenID, dataList, "#", hashvalue);
         upordownloadIPFS.get(hashvalue).then(r => {
             let tmpBuffer = r.content.buffer;
             let file = new Blob([tmpBuffer], {
                 type: ConfigEnum.SupposedFileType
             });
-            Download(file, props.datapack.userId, ConfigEnum.SupposedFileType);
+            Download(file, chosenID, ConfigEnum.SupposedFileType);
         })
     }
     const clickSubmit = (e) => {
@@ -43,10 +43,7 @@ export default function Verify(props) {
     const freshData = () => {
         axios.get("http://localhost:" + ConfigEnum.BackendPort + "/getlist").then(r => {
             let IDstr = Object.keys(r.data);
-            let IDCardNumber = IDstr.map(r => {
-                return r.substring(2, r.length - 2);
-            })
-            setDatas(IDCardNumber);
+            setDatas(IDstr);
             setDataList(r.data);
         }, e => {
             setHelpText("发生错误！错误原因" + e.toString());

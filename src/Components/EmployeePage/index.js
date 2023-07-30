@@ -28,12 +28,32 @@ export default function EmployeePage(props) {
         }, function () {
             // let file = FormList[1].getFieldValue("ipfs");
         }, function () {
-            upordownloadIPFS.get(nowFileIPFS).then(r => {
-                let tmpBuffer = r.content.buffer;
-                let file = new Blob([tmpBuffer], {
-                    type: ConfigEnum.SupposedFileType
-                });
-                Download(file, props.datapack.userId, ConfigEnum.SupposedFileType);
+            let data = {
+                id: props.datapack.userId
+            }
+            console.log(data);
+            console.log("#" + JSON.stringify(data));
+            axios({
+                method: "POST",
+                url: "http://localhost:" + ConfigEnum.BackendPort + "/find",
+                data: JSON.stringify(data),
+                headers: {"Content-Type": "application/json;charset=utf8"}
+            }).then(r => {
+                console.log(r);
+                if (r.data === "NULL") {
+                    alert("未上传简历！");
+                } else {
+                    upordownloadIPFS.get(r.data).then(r => {
+                        let tmpBuffer = r.content.buffer;
+                        let file = new Blob([tmpBuffer], {
+                            type: ConfigEnum.SupposedFileType
+                        });
+                        Download(file, props.datapack.userId, ConfigEnum.SupposedFileType);
+                    })
+                }
+            }, e => {
+                console.log(e);
+                alert(e.toString());
             })
         },
     ]
