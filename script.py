@@ -292,13 +292,22 @@ def add():
         "hash":hash1
     }
     #key = data['key']
-    hash.update({str(id):str(hash1)})
+    hash.update({str(id1):str(hash1)})
     return json.dumps(data1)
 #ca获得待审简历的列表
 @app.route('/getlist',methods=["POST","GET"])
 def getall():
 #文件哈希值是通过id值来定位的
     return json.dumps(hash)
+#根据id查找文件hash值
+@app.route('/find',methods=["POST","GET"])
+def get():
+    data = request.get_json()
+    id1 = data['id']
+    if str(id1) in hash.keys():
+        return str(hash[str(id1)])
+    else:
+        return "NULL"
 #ca审核通过或不通过，传入用户私钥、ID、简历hash
 @app.route('/decide',methods=["POST","GET"])
 def delete():
@@ -311,15 +320,11 @@ def delete():
         "currenthash":str(hash1)
     }
     return json.dumps(data)
-#根据id查找文件hash值
-@app.route('/find',methods=["POST","GET"])
-def get():
-    data = request.get_json()
-    id1 = data['id']
-    if str(id1) in hash.keys():
-        return hash[str(id1)]
-    else:
-        return "NULL"
 if __name__=='__main__' :
     server = pywsgi.WSGIServer(('127.0.0.1',8080),app)
     server.serve_forever()
+
+
+
+
+
