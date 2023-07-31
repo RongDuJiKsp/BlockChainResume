@@ -6,9 +6,9 @@ import RootPage from "../RootPage";
 
 export default function Home(props) {
     const StatusGiveAway = {
-        "root": <RootPage datapack={props.datapack}/>,
-        "employer": <EmployerPage datapack={props.datapack}/>,
-        "employee": <EmployeePage datapack={props.datapack}/>,
+        "root": <RootPage datapack={props.datapack} modelhandle={props.modelhandle}/>,
+        "employer": <EmployerPage datapack={props.datapack} modelhandle={props.modelhandle}/>,
+        "employee": <EmployeePage datapack={props.datapack} modelhandle={props.modelhandle}/>,
     }
     return (
         <div>

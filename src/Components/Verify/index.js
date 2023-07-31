@@ -1,5 +1,5 @@
 import {Content} from "antd/es/layout/layout";
-import {Button, Form, Input, Modal, Popconfirm, Table} from "antd";
+import {Button, Form, Input, Popconfirm, Table} from "antd";
 import "./index.css"
 import "../../ModelCSS/Button.css"
 import {useState} from "react";
@@ -11,8 +11,6 @@ import {ConfigEnum} from "../../Data/enums";
 import {upordownloadIPFS} from "../../Methods/upordownloadIPFS";
 
 export default function Verify(props) {
-    const [compState, setCompState] = useState([false]);
-    const [helpText, setHelpText] = useState("");
     const [datas, setDatas] = useState([]);
     const [dataList, setDataList] = useState([]);
     const [chosenID, setChosenID] = useState("");
@@ -21,7 +19,7 @@ export default function Verify(props) {
     const Jump = useNavigate();
     const CAETHKey = params.getAll('key')[0];
     const AcceptMethod = () => {
-
+        return CAETHKey;
     }
     const DelyMethod = () => {
     }
@@ -46,12 +44,9 @@ export default function Verify(props) {
             setDatas(IDstr);
             setDataList(r.data);
         }, e => {
-            setHelpText("发生错误！错误原因" + e.toString());
-            setCompState(old => {
-                let n = [...old];
-                n[0] = true;
-                return n;
-            })
+            props.modelhandle.setTitle("发生错误！");
+            props.modelhandle.setContext("错误原因：" + e.toString());
+            props.modelhandle.setModelVisible(true);
         })
     }
     const columns = [{
@@ -79,53 +74,36 @@ export default function Verify(props) {
         }
     })
     return (
-        <>
-            <Modal onOk={() => {
-                setCompState(old => {
-                    let n = [...old];
-                    n[0] = false;
-                    return n;
-                })
-            }} onCancel={() => {
-                setCompState(old => {
-                    let n = [...old];
-                    n[0] = false;
-                    return n;
-                })
-            }} open={compState[0]}>
-                <p>{helpText}</p>
-            </Modal>
-            <Content style={{height: "700px"}}>
-                <button className={"btn-two blue"} onClick={() => Jump("/")}>go back</button>
-                <button className={"btn-two green"} onClick={freshData}>fresh data</button>
-                <div id={"VerifyWindow"}>
-                    <div style={{float: "left", marginLeft: "10%"}}>
-                        <Form form={form}>
-                            <h4>请确认选中的id</h4>
-                            <Form.Item name={"id"}>
-                                <Input readOnly></Input>
-                            </Form.Item>
-                        </Form>
-                        <div style={{marginLeft: "25%"}}>
-                            <Popconfirm title={"请确认是否下载简历"} onConfirm={clickDownload}>
-                                <button className={"btn blue"}>下载</button>
-                            </Popconfirm>
-                        </div>
-                        <div>
-                            <Popconfirm title={"请确认是否打回简历"} onConfirm={DelyMethod}>
-                                <button className={"btn red"}>简历打回</button>
-                            </Popconfirm>
-                            <Popconfirm title={"请确认是否通过简历"} onConfirm={AcceptMethod}>
-                                <button className={"btn green"}>简历通过</button>
-                            </Popconfirm>
-                        </div>
+        <Content style={{height: "700px"}}>
+            <button className={"btn-two blue"} onClick={() => Jump("/")}>go back</button>
+            <button className={"btn-two green"} onClick={freshData}>fresh data</button>
+            <div id={"VerifyWindow"}>
+                <div style={{float: "left", marginLeft: "10%"}}>
+                    <Form form={form}>
+                        <h4>请确认选中的id</h4>
+                        <Form.Item name={"id"}>
+                            <Input readOnly></Input>
+                        </Form.Item>
+                    </Form>
+                    <div style={{marginLeft: "25%"}}>
+                        <Popconfirm title={"请确认是否下载简历"} onConfirm={clickDownload}>
+                            <button className={"btn blue"}>下载</button>
+                        </Popconfirm>
                     </div>
-                    <div style={{float: "right", marginRight: "15%", width: "30%"}}>
-                        <Table size={"middle"} bordered pagination={["bottomRight"]}
-                               dataSource={data} columns={columns}
-                        ></Table></div>
+                    <div>
+                        <Popconfirm title={"请确认是否打回简历"} onConfirm={DelyMethod}>
+                            <button className={"btn red"}>简历打回</button>
+                        </Popconfirm>
+                        <Popconfirm title={"请确认是否通过简历"} onConfirm={AcceptMethod}>
+                            <button className={"btn green"}>简历通过</button>
+                        </Popconfirm>
+                    </div>
                 </div>
-            </Content>
-        </>
+                <div style={{float: "right", marginRight: "15%", width: "30%"}}>
+                    <Table size={"middle"} bordered pagination={["bottomRight"]}
+                           dataSource={data} columns={columns}
+                    ></Table></div>
+            </div>
+        </Content>
     )
 }
