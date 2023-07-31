@@ -61,7 +61,7 @@ export default function Verify(props) {
         align: 'center',
 
     }, {
-        title: "Action",
+        title: "选中操作",
         align: 'center',
         render: (_, record) => {
             return (
