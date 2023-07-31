@@ -52,6 +52,11 @@ export default function App() {
                 return n;
             })
         },
+        ShowMessageByModal(title,context){
+            this.setTitle(title);
+            this.setContext(context);
+            this.setModelVisible(true);
+        },
         messageApi: messageApi
     }
     useEffect(() => {//默认设置点击确认，取消为关闭

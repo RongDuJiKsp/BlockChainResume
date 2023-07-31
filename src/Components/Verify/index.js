@@ -24,14 +24,16 @@ export default function Verify(props) {
     const DelyMethod = () => {
     }
     const clickDownload = () => {
+        props.modelhandle.ShowMessageByModal("下载已启动","请稍后。。。");
         let hashvalue = dataList[chosenID];
-        console.log(chosenID, dataList, "#", hashvalue);
         upordownloadIPFS.get(hashvalue).then(r => {
             let tmpBuffer = r.content.buffer;
             let file = new Blob([tmpBuffer], {
                 type: ConfigEnum.SupposedFileType
             });
             Download(file, chosenID, ConfigEnum.SupposedFileType);
+        },e=>{
+            props.modelhandle.ShowMessageByModal("发生错误",e.toString());
         })
     }
     const clickSubmit = (e) => {
@@ -44,9 +46,7 @@ export default function Verify(props) {
             setDatas(IDstr);
             setDataList(r.data);
         }, e => {
-            props.modelhandle.setTitle("发生错误！");
-            props.modelhandle.setContext("错误原因：" + e.toString());
-            props.modelhandle.setModelVisible(true);
+            props.modelhandle.ShowMessageByModal("发生错误！","错误原因"+e.toString());
         })
     }
     const columns = [{

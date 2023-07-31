@@ -19,11 +19,16 @@ export default function EmployeePage(props) {
                 id: props.datapack.userId,
                 hash: nowFileIPFS
             }
+            props.modelhandle.ShowMessageByModal("上传文件中", "请稍后...");
             axios({
                 method: "post",
                 url: "http://localhost:" + ConfigEnum.BackendPort + "/delieve",
                 data: JSON.stringify(data),
                 headers: {"Content-Type": "application/json;charset=utf8"}
+            }).then(r => {
+                props.modelhandle.ShowMessageByModal("提交成功！",r.data);
+            }, e => {
+                props.modelhandle.ShowMessageByModal("发生错误",e.toString());
             })
         }, function () {
             // let file = FormList[1].getFieldValue("ipfs");
@@ -31,15 +36,12 @@ export default function EmployeePage(props) {
             let data = {
                 id: props.datapack.userId
             }
-            console.log(data);
-            console.log("#" + JSON.stringify(data));
             axios({
                 method: "POST",
                 url: "http://localhost:" + ConfigEnum.BackendPort + "/find",
                 data: JSON.stringify(data),
                 headers: {"Content-Type": "application/json;charset=utf8"}
             }).then(r => {
-                console.log(r);
                 if (r.data === "NULL") {
                     alert("未上传简历！");
                 } else {
