@@ -2,7 +2,7 @@ import {useNavigate} from "react-router-dom";
 
 import "./index.css"
 import "../../ModelCSS/Button.css"
-import {Form, Input, Modal, Radio} from "antd";
+import {Form, Input, Radio} from "antd";
 import {useForm} from "antd/lib/form/Form";
 import {useState} from "react";
 import {ConfigEnum, LoginStateEnum} from "../../Data/enums";
@@ -12,36 +12,33 @@ export default function Login(props) {
     const [form] = useForm();
     const jump = useNavigate();
     const [loginIdentify, setLoginIdentify] = useState(LoginStateEnum.root);
-    const [compState, setCompState] = useState([false]);
-    const [helpText, setHelpText] = useState("");
     const submit = () => {
-        setHelpText("登录中，请稍后")
-        setCompState(old => {
-            let n = [...old];
-            n[0] = true;
-            return n;
-        })
+        props.modelhandle.setTitle("登录中....");
+        props.modelhandle.setContext("请稍后");
+        props.modelhandle.setModelVisible(true);
         let data = {
             idin: form.getFieldValue("userid"),
             passwordin: form.getFieldValue("userpassword")
         }
         axios({
-            method:"post",
-            data:JSON.stringify(data),
-            url:"http://localhost:"+ConfigEnum.BackendPort+"/signin",
+            method: "post",
+            data: JSON.stringify(data),
+            url: "http://localhost:" + ConfigEnum.BackendPort + "/signin",
             headers: {"Content-Type": "application/json;charset=utf8"}
         }).then(r => {
             if (r.data === "True") {
-                console.log(data, r);
+                props.modelhandle.setModelVisible(false);
                 props.methodpack.setUserId(data.idin);
                 props.methodpack.setPassword(data.passwordin);
                 props.methodpack.setLoginState(loginIdentify);
                 jump("/");
             } else {
-                setHelpText(r.data+ "请重新登录");
+                props.modelhandle.setTitle("发生错误了");
+                props.modelhandle.setContext("错误为 " + r.data);
             }
         }, e => {
-            setHelpText("发生错误，错误为" + e.toString());
+            props.modelhandle.setTitle("发生错误了");
+            props.modelhandle.setContext("错误为 " + e.toString());
         })
     }
     const signup = () => {
@@ -49,22 +46,6 @@ export default function Login(props) {
         jump("/signup");
     }
     return (
-        <>
-            <Modal open={compState[0]} onOk={() => {
-                setCompState(old => {
-                    let n = [...old];
-                    n[0] = false;
-                    return n;
-                })
-            }} onCancel={() => {
-                setCompState(old => {
-                    let n = [...old];
-                    n[0] = false;
-                    return n;
-                })
-            }}>
-                <p>{helpText}</p>
-            </Modal>
             <div id={"LoginMainWindow"}>
                 <img src={require("./logo.png")} alt={"null"} draggable={false}/>
                 <Radio.Group style={{marginTop: 10, marginBottom: 20}}
@@ -94,6 +75,5 @@ export default function Login(props) {
                 <button className={"btn green"} onClick={submit}>Sign in</button>
                 <button className={"btn blue"} onClick={signup}>Sign up</button>
             </div>
-        </>
     )
 }
