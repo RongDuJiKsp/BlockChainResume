@@ -308,7 +308,12 @@ def add():
 @app.route('/getlist',methods=["POST","GET"])
 def getall():
 #文件哈希值是通过id值来定位的
-    return json.dumps(hash)
+    data1 = {
+        "hash":hash,
+        "ethkey":key,
+        "s":randomS
+    }
+    return json.dumps(data1)
 #根据id查找文件hash值
 @app.route('/find',methods=["POST","GET"])
 def get():
@@ -326,7 +331,7 @@ def delete():
     key.pop(str(id1)) 
     hash.pop(str(id1))
     randomS.pop(str(id1))
-    return "genshin impact"
+    return "原神"
 if __name__=='__main__' :
     server = pywsgi.WSGIServer(('127.0.0.1',8080),app)
     server.serve_forever()
