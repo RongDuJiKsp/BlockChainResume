@@ -26,7 +26,8 @@ export default function EmployeePage(props) {
                 data: JSON.stringify(data),
                 headers: {"Content-Type": "application/json;charset=utf8"}
             }).then(r => {
-                props.modelhandle.ShowMessageByModal("提交成功！",r.data);
+                console.log(r.data);
+                props.modelhandle.ShowMessageByModal("提交成功！","请耐心等待CA的审核");
             }, e => {
                 props.modelhandle.ShowMessageByModal("发生错误",e.toString());
             })
