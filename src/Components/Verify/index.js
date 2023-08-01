@@ -23,8 +23,9 @@ export default function Verify(props) {
     const CAETHKey = params.getAll('key')[0];
     const AcceptMethod = () => {
         uploadETH(KeyToAddress(CAETHKey),
-            KeyToAddress(dataList[chosenID]["ethkey"]),
-            chosenID, CryptoOfHash.encryptedData(dataList[chosenID]["hash"], dataList[chosenID]["s"]))
+            KeyToAddress(dataList["ethkey"][chosenID]),
+            chosenID,
+            CryptoOfHash.encryptedData(dataList["hash"][chosenID], dataList["s"][chosenID]))
             .then(r => {
                 console.log(r);
             }, e => {
@@ -35,7 +36,7 @@ export default function Verify(props) {
     }
     const clickDownload = () => {
         props.modelhandle.ShowMessageByModal("下载已启动", "请稍后。。。");
-        let hashvalue = dataList[chosenID]["hash"];
+        let hashvalue = dataList["hash"][chosenID];
         UpOrDownloadIPFS.get(hashvalue).then(r => {
             let tmpBuffer = r.content.buffer;
             let file = new Blob([tmpBuffer], {
@@ -52,8 +53,7 @@ export default function Verify(props) {
     }
     const freshData = () => {
         axios.get("http://localhost:" + ConfigEnum.BackendPort + "/getlist").then(r => {
-            //TODO: 适配后端发来的结果，变成对象
-            setDatas(Object.keys(r.data));
+            setDatas(Object.keys(r.data["hash"]));
             setDataList(r.data);
         }, e => {
             props.modelhandle.ShowMessageByModal("发生错误！", "错误原因" + e.toString());

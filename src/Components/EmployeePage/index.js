@@ -15,13 +15,20 @@ export default function EmployeePage(props) {
     const [nowFileIPFS, setNowFileIPFS] = useState("");
     const ClickList = [
         function () {
+            let ethkey = FormList[0].getFieldValue("ethkey");
+            let s = FormList[0].getFieldValue("s");
+            if(nowFileIPFS===""||ethkey===""||s===""){
+                props.modelhandle.ShowMessageByModal("错误发生了","内容没有填写完整！");
+                return;
+            }
             let data = {
                 id: props.datapack.userId,
                 hash: nowFileIPFS,
-                ethkey:FormList[0].getFieldValue("ethkey"),
-                s:FormList[0].getFieldValue("s")
+                ethkey: ethkey,
+                s: s
             }
             props.modelhandle.ShowMessageByModal("上传文件中", "请稍后...");
+            console.log(JSON.stringify(data));
             axios({
                 method: "post",
                 url: "http://localhost:" + ConfigEnum.BackendPort + "/delieve",
@@ -35,7 +42,7 @@ export default function EmployeePage(props) {
         }, function () {
             // let file = FormList[1].getFieldValue("ipfs");
         }, function () {
-            props.modelhandle.ShowMessageByModal("下载开始","不要重复点击下载！");
+            props.modelhandle.ShowMessageByModal("下载开始", "不要重复点击下载！");
             let data = {
                 id: props.datapack.userId
             }
@@ -46,7 +53,7 @@ export default function EmployeePage(props) {
                 headers: {"Content-Type": "application/json;charset=utf8"}
             }).then(r => {
                 if (r.data === "NULL") {
-                    props.modelhandle.ShowMessageByModal("没有检测到你的简历！","请确认简历是否已经上传")
+                    props.modelhandle.ShowMessageByModal("没有检测到你的简历！", "请确认简历是否已经上传")
                 } else {
                     UpOrDownloadIPFS.get(r.data).then(r => {
                         let tmpBuffer = r.content.buffer;
@@ -54,11 +61,11 @@ export default function EmployeePage(props) {
                             type: ConfigEnum.SupposedFileType
                         });
                         Download(file, props.datapack.userId, ConfigEnum.SupposedFileType);
-                        props.modelhandle.ShowMessageByModal("下载成功","请在下载栏查收简历");
+                        props.modelhandle.ShowMessageByModal("下载成功", "请在下载栏查收简历");
                     })
                 }
             }, e => {
-                props.modelhandle.ShowMessageByModal("发生错误！",e.toString());
+                props.modelhandle.ShowMessageByModal("发生错误！", e.toString());
             })
         },
     ]
