@@ -26,13 +26,14 @@ export default function EmployeePage(props) {
                 data: JSON.stringify(data),
                 headers: {"Content-Type": "application/json;charset=utf8"}
             }).then(r => {
-                props.modelhandle.ShowMessageByModal("提交成功！","请耐心等待CA的审核");
+                props.modelhandle.ShowMessageByModal("提交成功！", "请耐心等待CA的审核");
             }, e => {
-                props.modelhandle.ShowMessageByModal("发生错误",e.toString());
+                props.modelhandle.ShowMessageByModal("发生错误", e.toString());
             })
         }, function () {
             // let file = FormList[1].getFieldValue("ipfs");
         }, function () {
+            props.modelhandle.ShowMessageByModal("下载开始","不要重复点击下载！");
             let data = {
                 id: props.datapack.userId
             }
@@ -43,7 +44,7 @@ export default function EmployeePage(props) {
                 headers: {"Content-Type": "application/json;charset=utf8"}
             }).then(r => {
                 if (r.data === "NULL") {
-                    alert("未上传简历！");
+                    props.modelhandle.ShowMessageByModal("没有检测到你的简历！","请确认简历是否已经上传")
                 } else {
                     upordownloadIPFS.get(r.data).then(r => {
                         let tmpBuffer = r.content.buffer;
@@ -51,10 +52,11 @@ export default function EmployeePage(props) {
                             type: ConfigEnum.SupposedFileType
                         });
                         Download(file, props.datapack.userId, ConfigEnum.SupposedFileType);
+                        props.modelhandle.ShowMessageByModal("下载成功","请在下载栏查收简历");
                     })
                 }
             }, e => {
-                alert(e.toString());
+                props.modelhandle.ShowMessageByModal("发生错误！",e.toString());
             })
         },
     ]
@@ -74,12 +76,14 @@ export default function EmployeePage(props) {
                             <Dragger valuePropName="fileList" beforeUpload={() => {
                                 return false;
                             }} onChange={(info) => {
-                                if(info.fileList.length===0) return;
+                                if (info.fileList.length === 0) return;
+                                props.modelhandle.ShowMessageByModal("文件上传中", "请耐心等待");
                                 const filereader = new FileReader();
                                 filereader.readAsArrayBuffer(info.file);
                                 filereader.onload = () => {
                                     upordownloadIPFS.add(Buffer.from(filereader.result)).then(r => {
                                         setNowFileIPFS(r);
+                                        props.modelhandle.ShowMessageByModal("文件上传成功！", "请确认信息无误后点击提交");
                                     });
                                 };
 
