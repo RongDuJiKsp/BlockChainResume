@@ -227,8 +227,10 @@ def getnum():
 #id分别与密码、随机数、简历哈希值对应
 id = []
 password = {}
-sigrandom = {}
+#sigrandom = {}
 hash = {}
+key = {}
+randomS = {}
 #注册时存储id和密码
 @app.route('/signup',methods=["POST","GET"])
 def signup_data():
@@ -245,7 +247,7 @@ def signup_data():
     if flag1==0:
         id.append(id1)
         password.update({str(id1):str(password1)})
-        sigrandom.update({str(id1):str(k)})
+        #sigrandom.update({str(id1):str(k)})
         return "True"
     else:
         return "IDerror"
@@ -280,19 +282,27 @@ def signin_data():
 # password = {}
 # sigrandom = {}
 # hash = {}
+#key = {}
+#randomS ={}
 #用户提交简历
 @app.route('/delieve',methods = ["POST","GET"])
 def add():
     data = request.get_json()
     id1 = data['id']
     hash1 = data['hash']
+    key1 = data['ethkey']
+    randomS1 = data['s']
     #
     data1 = {
         "id":id1,
-        "hash":hash1
+        "hash":hash1,
+        "ethkey":key1,
+        "s":randomS1
     }
     #key = data['key']
     hash.update({str(id1):str(hash1)})
+    key.update({str(id1):str(key1)})
+    randomS.update({str(id1):str(randomS1)})
     return json.dumps(data1)
 #ca获得待审简历的列表
 @app.route('/getlist',methods=["POST","GET"])
@@ -313,13 +323,10 @@ def get():
 def delete():
     data1 = request.get_json()
     id1 = data1['id']
-    hash1 = data1['hash']
+    key.pop(str(id1)) 
     hash.pop(str(id1))
-    data = {
-        "currentid":str(id1),
-        "currenthash":str(hash1)
-    }
-    return json.dumps(data)
+    randomS.pop(str(id1))
+    return "genshin impact"
 if __name__=='__main__' :
     server = pywsgi.WSGIServer(('127.0.0.1',8080),app)
     server.serve_forever()
