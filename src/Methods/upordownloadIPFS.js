@@ -26,7 +26,6 @@ export const upordownloadIPFS = {
         //传入要上传到IPFS的文件的字节流
         return new Promise((resolve, reject) => {
             try {
-                console.log("$ 正在进行上传");
                 ipfs.add(buffer, function (err, files) {
                     if (err || typeof files == "undefined") {
                         reject(err);

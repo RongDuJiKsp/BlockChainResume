@@ -67,7 +67,6 @@ const UploadETHresume = function (
 
     myContract.methods.registerResume(cryptHash,id,ethAddress)
         .send({ from: ethAddress,gas:"1000000"}).on('receipt', function(receipt) {
-        console.log(receipt);
     })
 
 }

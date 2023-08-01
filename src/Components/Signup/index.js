@@ -39,14 +39,12 @@ export default function Signup(props) {
             passwordup: tmpUpUserPassword,
             s: tmpUpUserRandomKey
         }
-        console.log(JSON.stringify(data))
         axios({
             method: "post",
             url: "http://localhost:" + ConfigEnum.BackendPort + "/signup",
             data: JSON.stringify(data),
             headers: {"Content-Type": "application/json;charset=utf8"}
         }).then(r => {
-            console.log(r);
             if (r.status === 200 && r.data === "True") setFinishStatus(e => {
                 return e + 1
             })
@@ -75,7 +73,6 @@ export default function Signup(props) {
     const SubmitFresh = () => {
         axios.get("http://localhost:" + ConfigEnum.BackendPort + "/random1").then(r => {
             if (r.status === 200) {
-                console.log(r.data);
                 form.setFieldValue("s", r.data["randomnumber"]);
                 setTmpUpUserRandomKey(r.data["randomnumber"]);
                 setLoadings(pre => {

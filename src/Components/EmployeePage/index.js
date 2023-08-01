@@ -26,7 +26,6 @@ export default function EmployeePage(props) {
                 data: JSON.stringify(data),
                 headers: {"Content-Type": "application/json;charset=utf8"}
             }).then(r => {
-                console.log(r.data);
                 props.modelhandle.ShowMessageByModal("提交成功！","请耐心等待CA的审核");
             }, e => {
                 props.modelhandle.ShowMessageByModal("发生错误",e.toString());
@@ -55,7 +54,6 @@ export default function EmployeePage(props) {
                     })
                 }
             }, e => {
-                console.log(e);
                 alert(e.toString());
             })
         },
@@ -76,12 +74,11 @@ export default function EmployeePage(props) {
                             <Dragger valuePropName="fileList" beforeUpload={() => {
                                 return false;
                             }} onChange={(info) => {
-                                console.log(info.file);
+                                if(info.fileList.length===0) return;
                                 const filereader = new FileReader();
                                 filereader.readAsArrayBuffer(info.file);
                                 filereader.onload = () => {
                                     upordownloadIPFS.add(Buffer.from(filereader.result)).then(r => {
-                                        console.log("file ipfs is" + r);
                                         setNowFileIPFS(r);
                                     });
                                 };
