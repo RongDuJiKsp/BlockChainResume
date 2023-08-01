@@ -8,7 +8,10 @@ import {useNavigate, useSearchParams} from "react-router-dom";
 import Download from "../../Methods/Download";
 import axios from "axios";
 import {ConfigEnum} from "../../Data/enums";
-import {upordownloadIPFS} from "../../Methods/upordownloadIPFS";
+import {UpOrDownloadIPFS} from "../../Methods/Chain/upOrDownloadIPFS";
+import uploadETH from "../../Methods/Chain/uploadETH";
+import KeyToAddress from "../../Methods/Chain/KeyToAddress";
+import CryptoOfHash from "../../Methods/Chain/CryptoOfHash";
 
 export default function Verify(props) {
     const [datas, setDatas] = useState([]);
@@ -19,21 +22,28 @@ export default function Verify(props) {
     const Jump = useNavigate();
     const CAETHKey = params.getAll('key')[0];
     const AcceptMethod = () => {
-        return CAETHKey;
+        uploadETH(KeyToAddress(CAETHKey),
+            KeyToAddress(dataList[chosenID]["ethkey"]),
+            chosenID, CryptoOfHash.encryptedData(dataList[chosenID]["hash"], dataList[chosenID]["s"]))
+            .then(r => {
+                console.log(r);
+            }, e => {
+                console.log(e);
+            });
     }
     const DelyMethod = () => {
     }
     const clickDownload = () => {
-        props.modelhandle.ShowMessageByModal("下载已启动","请稍后。。。");
-        let hashvalue = dataList[chosenID];
-        upordownloadIPFS.get(hashvalue).then(r => {
+        props.modelhandle.ShowMessageByModal("下载已启动", "请稍后。。。");
+        let hashvalue = dataList[chosenID]["hash"];
+        UpOrDownloadIPFS.get(hashvalue).then(r => {
             let tmpBuffer = r.content.buffer;
             let file = new Blob([tmpBuffer], {
                 type: ConfigEnum.SupposedFileType
             });
             Download(file, chosenID, ConfigEnum.SupposedFileType);
-        },e=>{
-            props.modelhandle.ShowMessageByModal("发生错误",e.toString());
+        }, e => {
+            props.modelhandle.ShowMessageByModal("发生错误", e.toString());
         })
     }
     const clickSubmit = (e) => {
@@ -42,11 +52,11 @@ export default function Verify(props) {
     }
     const freshData = () => {
         axios.get("http://localhost:" + ConfigEnum.BackendPort + "/getlist").then(r => {
-            let IDstr = Object.keys(r.data);
-            setDatas(IDstr);
+            //TODO: 适配后端发来的结果，变成对象
+            setDatas(Object.keys(r.data));
             setDataList(r.data);
         }, e => {
-            props.modelhandle.ShowMessageByModal("发生错误！","错误原因"+e.toString());
+            props.modelhandle.ShowMessageByModal("发生错误！", "错误原因" + e.toString());
         })
     }
     const columns = [{

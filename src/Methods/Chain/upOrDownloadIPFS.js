@@ -1,10 +1,10 @@
-import {ConfigEnum} from "../Data/enums";
+import {ConfigEnum} from "../../Data/enums";
 
 const ipfsAPI = require('ipfs-api');
 const ipfs = ipfsAPI({host: 'localhost', port: ConfigEnum.IPFSSystemPort, protocol: 'http'});
 //参数暂时不要填写
 
-export const upordownloadIPFS = {
+export const UpOrDownloadIPFS = {
     //传入文件的hash地址
     get: (hash) => {
         return new Promise((resolve, reject) => {

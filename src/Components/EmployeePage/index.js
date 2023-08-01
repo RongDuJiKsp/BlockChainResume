@@ -5,7 +5,7 @@ import "../../ModelCSS/Button.css"
 import Dragger from "antd/es/upload/Dragger";
 import {InboxOutlined} from "@ant-design/icons";
 import Download from "../../Methods/Download";
-import {upordownloadIPFS} from "../../Methods/upordownloadIPFS";
+import {UpOrDownloadIPFS} from "../../Methods/Chain/upOrDownloadIPFS";
 import {useState} from "react";
 import {ConfigEnum} from "../../Data/enums";
 import axios from "axios";
@@ -17,7 +17,9 @@ export default function EmployeePage(props) {
         function () {
             let data = {
                 id: props.datapack.userId,
-                hash: nowFileIPFS
+                hash: nowFileIPFS,
+                ethkey:FormList[0].getFieldValue("ethkey"),
+                s:FormList[0].getFieldValue("s")
             }
             props.modelhandle.ShowMessageByModal("上传文件中", "请稍后...");
             axios({
@@ -46,7 +48,7 @@ export default function EmployeePage(props) {
                 if (r.data === "NULL") {
                     props.modelhandle.ShowMessageByModal("没有检测到你的简历！","请确认简历是否已经上传")
                 } else {
-                    upordownloadIPFS.get(r.data).then(r => {
+                    UpOrDownloadIPFS.get(r.data).then(r => {
                         let tmpBuffer = r.content.buffer;
                         let file = new Blob([tmpBuffer], {
                             type: ConfigEnum.SupposedFileType
@@ -81,7 +83,7 @@ export default function EmployeePage(props) {
                                 const filereader = new FileReader();
                                 filereader.readAsArrayBuffer(info.file);
                                 filereader.onload = () => {
-                                    upordownloadIPFS.add(Buffer.from(filereader.result)).then(r => {
+                                    UpOrDownloadIPFS.add(Buffer.from(filereader.result)).then(r => {
                                         setNowFileIPFS(r);
                                         props.modelhandle.ShowMessageByModal("文件上传成功！", "请确认信息无误后点击提交");
                                     });
@@ -95,7 +97,7 @@ export default function EmployeePage(props) {
                             </Dragger>
                         </Form.Item>
                         <p>请在此黏贴您的ETH私钥</p>
-                        <Form.Item name={"ethKey"}>
+                        <Form.Item name={"ethkey"}>
                             <TextArea autoSize={{minRows: 2, maxRows: 8}}/>
                         </Form.Item>
                         <p>请在此黏贴您的s</p>
