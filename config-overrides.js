@@ -1,4 +1,5 @@
 module.exports = function override(config) {
+    config.ignoreWarnings = [/Failed to parse source map/];
     const fallback = config.resolve.fallback || {};
     Object.assign(fallback, {
         "stream": require.resolve("stream-browserify"),
