@@ -339,6 +339,8 @@ def deletesecret():
         send10 = send5
         send5.clear()
         return json.dumps(send10)
+    else:
+        return "NULL"
 #caa与公司登录验证
 @app.route('/caasignin',methods=["POST","GET"])
 def caasignin_data():
