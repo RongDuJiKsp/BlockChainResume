@@ -1,5 +1,5 @@
 import {Card, Col, Input, Row} from "antd";
-import {useNavigate} from "react-router-dom";
+import {json, useNavigate} from "react-router-dom";
 import {useState} from "react";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
@@ -9,7 +9,6 @@ import Download from "../../Methods/Download";
 export default function RootPage(props) {
     const Jump = useNavigate();
     const [ethKey, setETHKey] = useState("");
-    const [needleUserID, setNeedleUserID] = useState("");
     return (
         <div id={"RootWindowBox"}>
             <Row>
@@ -33,41 +32,32 @@ export default function RootPage(props) {
                 <Col span={12}>
                     <Card hoverable={true} title="获取份额" extra={
                         <button className={"btn purple small"} onClick={() => {
-                            if (needleUserID === "") {
-                                props.modelhandle.messageApi.open({
-                                    type: "error",
-                                    content: "用户ID为空！"
-                                }).then()
-                                return;
-                            }
                             props.modelhandle.ShowMessageByModal("下载已经开始！","请检查下载框。。。");
                             axios({
                                 method: "post",
                                 url: "http://localhost:" + ConfigEnum.BackendPort + "/download",
                                 headers: {"Content-Type": "application/json;charset=utf8"},
                                 data: JSON.stringify({
-                                    id: needleUserID
+                                    id: props.datapack.userId
                                 })
                             }).then(r => {
                                 console.log(JSON.stringify({
-                                    id: needleUserID
-                                }),r);
-                                if(r.data==="NULL"){
-                                    props.modelhandle.ShowMessageByModal("发生错误！","下载"+needleUserID+"的时候下载次数已经用尽。。");
+                                    id: props.datapack.userId
+                                }), r.data);
+                                if(JSON.stringify(r.data)==="{}"){
+                                    props.modelhandle.ShowMessageByModal("发生错误！","下载"+props.datapack.userId+"的时候下载次数已经用尽。。");
                                     return;
                                 }
                                 let blob = new Blob([r.data], {
                                     type: 'text/plain'
                                 });
-                                Download(blob,needleUserID+"的部分份额","text/key");
+                                Download(blob,props.datapack.userId+"的部分份额","text/key");
                             }, e => {
                                 props.modelhandle.ShowMessageByModal("发生错误",e.toString());
                             })
 
                         }}>获取</button>
                     } style={{width: 300, marginLeft: "15%"}}>
-                        <p>请在此输入需要获取的用户的id</p>
-                        <Input onChange={e => setNeedleUserID(e.target.value)}/>
                     </Card>
                 </Col>
             </Row>
