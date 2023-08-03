@@ -49,10 +49,17 @@ export default function RootPage(props) {
                                     id: needleUserID
                                 })
                             }).then(r => {
-                                let blob = new Blob([r], {
+                                console.log(JSON.stringify({
+                                    id: needleUserID
+                                }),r);
+                                if(r.data==="NULL"){
+                                    props.modelhandle.ShowMessageByModal("发生错误！","下载"+needleUserID+"的时候下载次数已经用尽。。");
+                                    return;
+                                }
+                                let blob = new Blob([r.data], {
                                     type: 'text/plain'
                                 });
-                                Download(blob,"的部分份额","text/key");
+                                Download(blob,needleUserID+"的部分份额","text/key");
                             }, e => {
                                 props.modelhandle.ShowMessageByModal("发生错误",e.toString());
                             })
