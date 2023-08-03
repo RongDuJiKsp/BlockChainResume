@@ -16,6 +16,7 @@ import {ConfigEnum, ETHKeyEnum, ValidateStatusEnum} from "../../Data/enums";
 import CheckObj from "../../Methods/CheckObj";
 import axios from "axios";
 import CryptoOfHash from "../../Methods/Chain/CryptoOfHash";
+import StatusManager from "../../Methods/StatusManager";
 
 
 export default function Signup(props) {
@@ -52,19 +53,11 @@ export default function Signup(props) {
             })
             else {
                 form.setFieldValue("help", "提交失败，请重新点击提交按钮 错误为：" + r.data)
-                setLoadings(pre => {
-                    let tmp = [...pre];
-                    tmp[0] = false;
-                    return tmp
-                })
+                StatusManager.ChangeStateOfArray(setLoadings, 0, false);
             }
         }, e => {
             form.setFieldValue("help", "提交失败，请重新点击提交按钮 错误为：" + e.toString())
-            setLoadings(pre => {
-                let tmp = [...pre];
-                tmp[0] = false;
-                return tmp
-            })
+            StatusManager.ChangeStateOfArray(setLoadings, 0, false);
         })
     }
     const ShowFinalData = () => {
@@ -86,19 +79,11 @@ export default function Signup(props) {
             if (r.status === 200) {
                 form.setFieldValue("s", r.data["randomnumber"]);
                 setTmpUpUserRandomKey(r.data["randomnumber"]);
-                setLoadings(pre => {
-                    let tmp = [...pre];
-                    tmp[1] = false;
-                    return tmp
-                })
+                StatusManager.ChangeStateOfArray(setLoadings, 1, false);
             }
         }, e => {
             form.setFieldValue("s", "发生错误，错误为 " + e.toString());
-            setLoadings(pre => {
-                let tmp = [...pre];
-                tmp[1] = false;
-                return tmp
-            })
+            StatusManager.ChangeStateOfArray(setLoadings, 1, false);
         })
     }
     const Jump = useNavigate();
@@ -173,19 +158,11 @@ export default function Signup(props) {
         }
     }, {
         fresh: () => {
-            setLoadings(pre => {
-                let tmp = [...pre];
-                tmp[1] = true;
-                return tmp
-            })
+            StatusManager.ChangeStateOfArray(setLoadings, 1, true);
             SubmitFresh();
         },
         func: () => {
-            setLoadings(pre => {
-                let tmp = [...pre];
-                tmp[0] = true;
-                return tmp
-            })
+            StatusManager.ChangeStateOfArray(setLoadings, 0, true);
             SubmitServer();
         },
         rand: () => {

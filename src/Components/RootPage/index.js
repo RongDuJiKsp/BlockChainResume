@@ -1,5 +1,5 @@
-import {Card, Col, Input, Row} from "antd";
-import {json, useNavigate} from "react-router-dom";
+import {Card, Col, Row} from "antd";
+import { useNavigate} from "react-router-dom";
 import {useState} from "react";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";

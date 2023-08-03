@@ -5,6 +5,7 @@ import {useNavigate} from "react-router-dom";
 import "./App.css"
 import {LoginStateEnum} from "./Data/enums";
 import {message, Modal} from "antd";
+import StatusManager from "./Methods/StatusManager";
 
 export default function App() {
     const [loginState, setLoginState] = useState(LoginStateEnum.none);
@@ -23,34 +24,18 @@ export default function App() {
     const modelHandle = {
         setModelVisible: setModelVisible,
         setTitle: (text) => {
-            setModelContents(old => {
-                let n = [...old];
-                n[0] = text;
-                return n;
-            })
+            StatusManager.ChangeStateOfArray(setModelContents, 0, text);
         },
         setContext: (text) => {
-            setModelContents(old => {
-                let n = [...old];
-                n[1] = text;
-                return n;
-            })
+            StatusManager.ChangeStateOfArray(setModelContents, 1, text);
         },
         setOkMethod: (method) => {
-            setModelContents(old => {
-                let n = [...old];
-                n[2] = method;
-                return n;
-            })
+            StatusManager.ChangeStateOfArray(setModelContents, 2, method);
         },
         setCancelMethod: (method) => {
-            setModelContents(old => {
-                let n = [...old];
-                n[3] = method;
-                return n;
-            })
+            StatusManager.ChangeStateOfArray(setModelContents, 3, method);
         },
-        ShowMessageByModal(title,context){
+        ShowMessageByModal(title, context) {
             this.setTitle(title);
             this.setContext(context);
             this.setModelVisible(true);
@@ -58,16 +43,11 @@ export default function App() {
         messageApi: messageApi
     }
     useEffect(() => {//默认设置点击确认，取消为关闭
-        setModelContents(old => {
-            let n = [...old];
-            n[2] = () => {
-                setModelVisible(false);
-            };
-            n[3] = () => {
-                setModelVisible(false);
-            }
-            return n;
-        });
+        const close = function () {
+            setModelVisible(false);
+        }
+        StatusManager.ChangeStateOfArray(setModelContents, 2, close);
+        StatusManager.ChangeStateOfArray(setModelContents, 3, close);
     }, [])
 
     return (
