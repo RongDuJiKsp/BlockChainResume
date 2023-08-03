@@ -320,25 +320,25 @@ companykey = {
 def deletesecret():
     data1 = request.get_json()
     if data1['id']=="10497983":
-        send6 = send1
+        SEND6 = send1
         send1.clear()
-        return json.dumps(send6)
+        return json.dumps(SEND6)
     elif data1['id']=='8902138523':
-        send7 = send2
+        SEND7 = send2
         send2.clear()
-        return json.dumps(send7)
+        return json.dumps(SEND7)
     elif data1['id']=='782930134':
-        send8 = send3
+        SEND8 = send3
         send3.clear()
-        return json.dumps(send8)
+        return json.dumps(SEND8)
     elif data1['id']=='58392035921':
-        send9 = send4
+        SEND9 = send4
         send4.clear()
-        return json.dumps(send9)
+        return json.dumps(SEND9)
     elif data1['id']=='492895234752':
-        send10 = send5
+        SEND10 = send5
         send5.clear()
-        return json.dumps(send10)
+        return json.dumps(SEND10)
     else:
         return "NULL"
 #caa与公司登录验证
