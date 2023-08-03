@@ -140,7 +140,7 @@ def getm(t, n, bit_k, k):
 #Large 256-bit numbers as a test
 if __name__ == '__main__':
 
-    k = generate_random_number(10)
+    k = generate_random_number(4)
     print("S ", k)
     bit_k  = k.bit_length()
     #print("bits of k", bit_k)
@@ -208,37 +208,53 @@ print('Running time dis:  Seconds', timdis)
 print('Running time dis: Seconds', timrc)
 
 print("result: ", result)
-
-#返回随机数给前端
+send1 ={}
+send2 ={}
+send3 ={}
+send4={}
+send5 = {}
+#返回随机数和份额给前端
 app = Flask(__name__)
 CORS(app)
 @app.route('/random1',methods=["POST","GET"])#这个是对函数的路由
 def getnum():
+    data = request.get_json()
+    id1 = data['id']#获取用户id
+    secretnum1 = [str(MMM[0]),str(kkk1[0]),str(PPP)]
+    secretnum2 = [str(MMM[1]),str(kkk1[1]),str(PPP)]
+    secretnum3 = [str(MMM[2]),str(kkk1[2]),str(PPP)]
+    secretnum4 = [str(MMM[3]),str(kkk1[3]),str(PPP)]
+    secretnum5 = [str(MMM[4]),str(kkk1[4]),str(PPP)]
+    #5个秘密份额
+    send1.update({str(id1):secretnum1})
+    send2.update({str(id1):secretnum2})
+    send3.update({str(id1):secretnum3})
+    send4.update({str(id1):secretnum4})
+    send5.update({str(id1):secretnum5})
     data = {
         "randomnumber": str(k),#注册完成时呈现给用户
-        "array": str(MMM),#存储即可
-        "bigprime": str(PPP),#大素数P存储即可
-        "array2":str(kkk1)#存储即可
     }
     return json.dumps(data)
 
 #S m数组 P x数组
-#登录验证
 #id分别与密码、随机数、简历哈希值对应
 id = []
-password = {}
+password = {} #id-用户及加密后的登录密码
 #sigrandom = {}
 hash = {}
-key = {}
+key = {}#id-用户加密前的eth私钥
 randomS = {}
+keynew = {}#存id—加密后的eth私钥键值对，永久存
 #注册时存储id和密码
 @app.route('/signup',methods=["POST","GET"])
 def signup_data():
     data3 = request.get_json()
     id1 = data3['idup']
     password1 = data3['passwordup']
+    key1 = data3['key']#获取加密后的eth私钥
     print(id1)
     print(password1)
+    print(key1)
     flag1 = 0
     for a in id:
         if a == id1:
@@ -247,11 +263,12 @@ def signup_data():
     if flag1==0:
         id.append(id1)
         password.update({str(id1):str(password1)})
+        keynew.update({str(id1):str(key1)})
         #sigrandom.update({str(id1):str(k)})
         return "True"
     else:
         return "IDerror"
-#登录时验证id及密码
+#登录时验证用户id及密码
 @app.route('/signin',methods=["POST","GET"])
 def signin_data():
     data4 = request.get_json()
@@ -277,7 +294,76 @@ def signin_data():
         return "IDexisterror"
     else:
         return "Passworderror"
+caaid = {
+    "10497983":"jiangle",
+    "8902138523":"qidyuanshenong",
+    "782930134":"woaiyuan(shen",
+    "58392035921":"wr3rt&3w#@t",
+    "492895234752":"t34rfe43r",
+}
+caakey = {
+    "10497983":"yuanshen",
+    "8902138523":"xtu",
+    "782930134":"3241",
+    "58392035921":"fwef",
+    "492895234752":"342",
+}
+companyid = {
+    "42342481450":"rqweuygfs%$",
+}
+companykey = {
+    "42342481450":"234",
+}
 
+#caa下载简历后删除对应用户id的秘密份额
+@app.route('/download',methods=["POST","GET"])
+def deletesecret():
+    data1 = request.get_json()
+    if data1['id']=="10497983":
+        send6 = send1
+        send1.clear()
+        return json.dumps(send6)
+    elif data1['id']=='8902138523':
+        send7 = send2
+        send2.clear()
+        return json.dumps(send7)
+    elif data1['id']=='782930134':
+        send8 = send3
+        send3.clear()
+        return json.dumps(send8)
+    elif data1['id']=='58392035921':
+        send9 = send4
+        send4.clear()
+        return json.dumps(send9)
+    elif data1['id']=='492895234752':
+        send10 = send5
+        send5.clear()
+        return json.dumps(send10)
+#caa与公司登录验证
+@app.route('/caasignin',methods=["POST","GET"])
+def caasignin_data():
+    data5 = request.get_json()
+    id1 = data5['idin']
+    password1 = data5['passwordin']
+    if str(id1) in caaid.keys():
+        if str(password1) == caaid[str(id1)]:
+            return "True"
+        else:
+            return "PasswordError"
+    else:
+        return "IDError"
+@app.route('/comsignin',methods=["POST","GET"])
+def companysignin_data():
+    data5 = request.get_json()
+    id1 = data5['idin']
+    password1 = data5['passwordin']
+    if str(id1) in companyid.keys():
+        if str(password1) == companyid[str(id1)]:
+            return "True"
+        else:
+            return "PasswordError"
+    else:
+        return "IDError"
 # id = []
 # password = {}
 # sigrandom = {}
@@ -332,6 +418,8 @@ def delete():
     hash.pop(str(id1))
     randomS.pop(str(id1))
     return "原神"
+
+
 if __name__=='__main__' :
     server = pywsgi.WSGIServer(('127.0.0.1',8080),app)
     server.serve_forever()
