@@ -10,6 +10,7 @@ module.exports = function override(config) {
         "url": require.resolve("url"),
         "constants": require.resolve("constants-browserify"),
         "path": require.resolve("path-browserify"),
+        "crypto": require.resolve("crypto-browserify"),
     })
     config.resolve.fallback = fallback;
     const webpack = require("webpack");

@@ -12,11 +12,9 @@ export default function App() {
     const logoutfunc = () => {
         setLoginState(LoginStateEnum.none);
         setUserId("");
-        setPassword("");
         Jump("/");
     }
     const [userId, setUserId] = useState("");
-    const [userPassword, setPassword] = useState("");
     const [messageApi, contextHolder] = message.useMessage();
     const [isModelVisible, setModelVisible] = useState(false);
     const [modelContents, setModelContents] = useState(["title", "tips", () => {
@@ -81,11 +79,9 @@ export default function App() {
             {loginState === LoginStateEnum.none ? <Login methodpack={{
                 setLoginState: setLoginState,
                 setUserId: setUserId,
-                setPassword: setPassword,
             }} modelhandle={modelHandle}/> : <ProjectRouter datapack={{
                 loginState: loginState,
                 userId: userId,
-                userPassword: userPassword,
                 logoutfunc: logoutfunc,
             }} modelhandle={modelHandle}/>}
         </>

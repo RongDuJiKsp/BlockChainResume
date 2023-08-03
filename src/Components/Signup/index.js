@@ -15,6 +15,7 @@ import {useForm} from "antd/lib/form/Form";
 import {ConfigEnum, ETHKeyEnum, ValidateStatusEnum} from "../../Data/enums";
 import CheckObj from "../../Methods/CheckObj";
 import axios from "axios";
+import CryptoOfHash from "../../Methods/Chain/CryptoOfHash";
 
 
 export default function Signup(props) {
@@ -25,6 +26,7 @@ export default function Signup(props) {
     const [tmpUpUserPassword, setTmpUpUserPassword] = useState("");
     const [tmpUpUserPasswordC, setTmpUpUserPasswordC] = useState("");
     const [tmpUpUserRandomKey, setTmpUpUserRandomKey] = useState("");
+    const [tmpUpUserETHKey, setTmpUpUserETHKey] = useState("");
     const [validateStatus, setValidateStatus] = useState(ValidateStatusEnum.success);
     const [loadings, setLoadings] = useState([false, false]);
     const MappingStatus = (now, my) => {
@@ -36,8 +38,8 @@ export default function Signup(props) {
     const SubmitServer = () => {
         let data = {
             idup: tmpUpUserId,
-            passwordup: tmpUpUserPassword,
-            s: tmpUpUserRandomKey
+            passwordup: CryptoOfHash.hashData(tmpUpUserPassword),
+            key: CryptoOfHash.encryptedData(tmpUpUserETHKey, tmpUpUserRandomKey)
         }
         axios({
             method: "post",
@@ -68,10 +70,19 @@ export default function Signup(props) {
     const ShowFinalData = () => {
         form.setFieldValue("cid", "你的id是 : " + tmpUpUserId);
         form.setFieldValue("help", inConform);
-        form.setFieldValue("ethkey", ETHKeyEnum.getKey());
+        let key=ETHKeyEnum.getKey();
+        setTmpUpUserETHKey(key);
+        form.setFieldValue("ethkey", key);
     }
     const SubmitFresh = () => {
-        axios.get("http://localhost:" + ConfigEnum.BackendPort + "/random1").then(r => {
+        axios({
+            method: "POST",
+            data: JSON.stringify({
+                id: tmpUpUserId
+            }),
+            url: "http://localhost:" + ConfigEnum.BackendPort + "/random1",
+            headers: {"Content-Type": "application/json;charset=utf8"}
+        }).then(r => {
             if (r.status === 200) {
                 form.setFieldValue("s", r.data["randomnumber"]);
                 setTmpUpUserRandomKey(r.data["randomnumber"]);

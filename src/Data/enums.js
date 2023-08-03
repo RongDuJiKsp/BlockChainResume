@@ -18,7 +18,8 @@ export const ConfigEnum = {
     MinPasswordLength: 6,
     SupposedFileType: "application/pdf",
     FileType: {
-        "application/pdf": ".pdf"
+        "application/pdf": ".pdf",
+        "text/key":".key"
     }
 }
 export const ETHKeyEnum = {

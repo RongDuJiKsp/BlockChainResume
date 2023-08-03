@@ -27,9 +27,9 @@ export default function Verify(props) {
             chosenID,
             CryptoOfHash.encryptedData(dataList["hash"][chosenID], dataList["s"][chosenID]))
             .then(r => {
-                props.modelhandle.ShowMessageByModal("成功！",r);
+                props.modelhandle.ShowMessageByModal("成功！", r);
             }, e => {
-                props.modelhandle.ShowMessageByModal("失败！",e);
+                props.modelhandle.ShowMessageByModal("失败！", e);
             });
     }
     const DelyMethod = () => {

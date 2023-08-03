@@ -7,6 +7,7 @@ import {useForm} from "antd/lib/form/Form";
 import {useState} from "react";
 import {ConfigEnum, LoginStateEnum} from "../../Data/enums";
 import axios from "axios";
+import CryptoOfHash from "../../Methods/Chain/CryptoOfHash";
 
 export default function Login(props) {
     const [form] = useForm();
@@ -14,14 +15,14 @@ export default function Login(props) {
     const [loginIdentify, setLoginIdentify] = useState(LoginStateEnum.root);
     const Topath = (Identify) => {
         if (Identify === LoginStateEnum.root) return "/caasignin";
-        if (Identify === LoginStateEnum.employer) return "comsignin"
+        if (Identify === LoginStateEnum.employer) return "/comsignin"
         if (Identify === LoginStateEnum.employee) return "/signin";
     }
     const submit = () => {
         props.modelhandle.ShowMessageByModal("登录中....", "请稍后。。。");
         let data = {
             idin: form.getFieldValue("userid"),
-            passwordin: form.getFieldValue("userpassword")
+            passwordin: loginIdentify===LoginStateEnum.employee?CryptoOfHash.hashData(form.getFieldValue("userpassword")):form.getFieldValue("userpassword")
         }
         axios({
             method: "post",
@@ -32,7 +33,6 @@ export default function Login(props) {
             if (r.data === "True") {
                 props.modelhandle.setModelVisible(false);
                 props.methodpack.setUserId(data.idin);
-                props.methodpack.setPassword(data.passwordin);
                 props.methodpack.setLoginState(loginIdentify);
                 jump("/");
             } else {
@@ -56,7 +56,7 @@ export default function Login(props) {
                          }}
             >
                 <Radio.Button value={LoginStateEnum.root}>
-                    以Root身份登录
+                    以CA身份登录
                 </Radio.Button>
                 <Radio.Button value={LoginStateEnum.employer}>
                     以雇主身份登录
