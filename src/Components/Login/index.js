@@ -12,6 +12,11 @@ export default function Login(props) {
     const [form] = useForm();
     const jump = useNavigate();
     const [loginIdentify, setLoginIdentify] = useState(LoginStateEnum.root);
+    const Topath = (Identify) => {
+        if (Identify === LoginStateEnum.root) return "/caasignin";
+        if (Identify === LoginStateEnum.employer) return "comsignin"
+        if (Identify === LoginStateEnum.employee) return "/signin";
+    }
     const submit = () => {
         props.modelhandle.ShowMessageByModal("登录中....", "请稍后。。。");
         let data = {
@@ -21,7 +26,7 @@ export default function Login(props) {
         axios({
             method: "post",
             data: JSON.stringify(data),
-            url: "http://localhost:" + ConfigEnum.BackendPort + "/signin",
+            url: "http://localhost:" + ConfigEnum.BackendPort + Topath(loginIdentify),
             headers: {"Content-Type": "application/json;charset=utf8"}
         }).then(r => {
             if (r.data === "True") {
