@@ -22,7 +22,7 @@ export default function Login(props) {
         props.modelhandle.ShowMessageByModal("登录中....", "请稍后。。。");
         let data = {
             idin: form.getFieldValue("userid"),
-            passwordin: loginIdentify===LoginStateEnum.employee?CryptoOfHash.hashData(form.getFieldValue("userpassword")):form.getFieldValue("userpassword")
+            passwordin: loginIdentify === LoginStateEnum.employee ? CryptoOfHash.hashData(form.getFieldValue("userpassword")) : form.getFieldValue("userpassword")
         }
         axios({
             method: "post",
@@ -41,10 +41,6 @@ export default function Login(props) {
         }, e => {
             props.modelhandle.ShowMessageByModal("发生错误了", e.toString());
         })
-    }
-    const signup = () => {
-        props.methodpack.setLoginState(LoginStateEnum.register);
-        jump("/signup");
     }
     return (
         <div id={"LoginMainWindow"}>
@@ -73,8 +69,16 @@ export default function Login(props) {
                     <Input.Password/>
                 </Form.Item>
             </Form>
-            <button className={"btn green"} onClick={submit}>Sign in</button>
-            <button className={"btn blue"} onClick={signup}>Sign up</button>
+            <button className={"btn green small"} onClick={submit}>用户登入</button>
+            <button className={"btn blue small"} onClick={() => {
+                props.methodpack.setLoginState(LoginStateEnum.register);
+                jump("/signup");
+            }}>用户注册
+            </button>
+            <button className={"red btn small"} onClick={()=>{
+                props.methodpack.setLoginState(LoginStateEnum.finder);
+                jump("/find");
+            }}>找回密码</button>
         </div>
     )
 }

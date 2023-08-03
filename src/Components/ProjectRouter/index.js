@@ -6,6 +6,7 @@ import Signup from "../Signup";
 import {Layout} from "antd";
 import {Footer} from "antd/es/layout/layout";
 import Verify from "../Verify";
+import FIndKeyPage from "../FIndKeyPage";
 
 export default function ProjectRouter(props) {
 
@@ -19,6 +20,8 @@ export default function ProjectRouter(props) {
                        element={<Signup datapack={props.datapack} modelhandle={props.modelhandle}/>}></Route>
                 <Route path={"/root"}
                        element={<Verify datapack={props.datapack} modelhandle={props.modelhandle}/>}></Route>
+                <Route path={"/find"}
+                       element={<FIndKeyPage datapack={props.datapack} modelhandle={props.modelhandle}/>}></Route>
             </Routes>
             <Footer>
                 版权所有@app

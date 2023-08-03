@@ -1,0 +1,12 @@
+.FindPage{
+    background-image: linear-gradient(to right, #eea2a2 0%, #bbc1bf 19%, #57c6e1 42%, #b49fda 79%, #7ac5d8 100%);
+}
+#FindMainWindow{
+    background-color: white;
+    box-sizing: border-box;
+    border: #7fccde double 13px;
+    margin:15% auto auto auto;
+    width: 33%;
+    padding :10px;
+    text-align: center;
+}

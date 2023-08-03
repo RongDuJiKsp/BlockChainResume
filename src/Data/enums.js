@@ -10,6 +10,7 @@ export const LoginStateEnum = {
     employer: "employer",
     employee: "employee",
     register: "register",
+    finder:"finder"
 }
 export const ConfigEnum = {
     FrontEndPort:"3000",
