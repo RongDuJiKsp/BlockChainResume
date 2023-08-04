@@ -1,5 +1,5 @@
 import {Card, Col, Row} from "antd";
-import { useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
@@ -32,7 +32,7 @@ export default function RootPage(props) {
                 <Col span={12}>
                     <Card hoverable={true} title="获取份额" extra={
                         <button className={"btn purple small"} onClick={() => {
-                            props.modelhandle.ShowMessageByModal("下载已经开始！","请检查下载框。。。");
+                            props.modelhandle.ShowMessageByModal("下载已经开始！", "请检查下载框。。。");
                             axios({
                                 method: "post",
                                 url: "http://localhost:" + ConfigEnum.BackendPort + "/download",
@@ -41,19 +41,19 @@ export default function RootPage(props) {
                                     id: props.datapack.userId
                                 })
                             }).then(r => {
-                                console.log(JSON.stringify({
+                                console.log("传入的数据：",JSON.stringify({
                                     id: props.datapack.userId
-                                }), r.data);
-                                if(JSON.stringify(r.data)==="{}"){
-                                    props.modelhandle.ShowMessageByModal("发生错误！","下载"+props.datapack.userId+"的时候下载次数已经用尽。。");
+                                }),"返回结果",r);
+                                if (JSON.stringify(r.data) === "{}") {
+                                    props.modelhandle.ShowMessageByModal("发生错误！", "下载" + props.datapack.userId + "的时候下载次数已经用尽。。");
                                     return;
                                 }
                                 let blob = new Blob([r.data], {
                                     type: 'text/plain'
                                 });
-                                Download(blob,props.datapack.userId+"的部分份额","text/key");
+                                Download(blob, props.datapack.userId + "的部分份额", "text/key");
                             }, e => {
-                                props.modelhandle.ShowMessageByModal("发生错误",e.toString());
+                                props.modelhandle.ShowMessageByModal("发生错误", e.toString());
                             })
 
                         }}>获取</button>

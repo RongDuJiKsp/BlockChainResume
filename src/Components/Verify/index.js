@@ -27,7 +27,19 @@ export default function Verify(props) {
             chosenID,
             CryptoOfHash.encryptedData(dataList["hash"][chosenID], dataList["s"][chosenID]))
             .then(r => {
-                props.modelhandle.ShowMessageByModal("成功！", r);
+                axios({
+                    method:"post",
+                    url:"http://localhost:"+ConfigEnum.BackendPort+"/decide",
+                    headers: {"Content-Type": "application/json;charset=utf8"},
+                    data:JSON.stringify({
+                        id:chosenID
+                    })
+                }).then(r=>{
+                    props.modelhandle.ShowMessageByModal("成功！", r.data.toString());
+                },e=>{
+                    props.modelhandle.ShowMessageByModal("失败！", e.toString());
+                })
+
             }, e => {
                 props.modelhandle.ShowMessageByModal("失败！", e);
             });

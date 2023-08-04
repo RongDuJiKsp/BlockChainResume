@@ -9,6 +9,7 @@ import {UpOrDownloadIPFS} from "../../Methods/Chain/upOrDownloadIPFS";
 import {useState} from "react";
 import {ConfigEnum} from "../../Data/enums";
 import axios from "axios";
+import CryptoOfHash from "../../Methods/Chain/CryptoOfHash";
 
 export default function EmployeePage(props) {
     const FormList = [useForm()[0], useForm()[0], useForm()[0]];
@@ -17,27 +18,41 @@ export default function EmployeePage(props) {
         function () {
             let ethkey = FormList[0].getFieldValue("ethkey");
             let s = FormList[0].getFieldValue("s");
-            if(nowFileIPFS===""||ethkey===""||s===""){
-                props.modelhandle.ShowMessageByModal("错误发生了","内容没有填写完整！");
+            if (nowFileIPFS === "" || ethkey === "" || s === "") {
+                props.modelhandle.ShowMessageByModal("错误发生了", "内容没有填写完整！");
                 return;
             }
-            let data = {
-                id: props.datapack.userId,
-                hash: nowFileIPFS,
-                ethkey: ethkey,
-                s: s
-            }
-            props.modelhandle.ShowMessageByModal("上传文件中", "请稍后...");
-            console.log(JSON.stringify(data));
             axios({
-                method: "post",
-                url: "http://localhost:" + ConfigEnum.BackendPort + "/delieve",
-                data: JSON.stringify(data),
+                method: "POST",
+                data: JSON.stringify({
+                    id: props.datapack.userId
+                }),
+                url: "http://localhost:" + ConfigEnum.BackendPort + "/getkey",
                 headers: {"Content-Type": "application/json;charset=utf8"}
             }).then(r => {
-                props.modelhandle.ShowMessageByModal("提交成功！", "请耐心等待CA的审核");
+                if (r.data !== CryptoOfHash.encryptedData(ethkey, s)) {
+                    props.modelhandle.ShowMessageByModal("错误发生了", "输入的信息有误！");
+                }
+                let data = {
+                    id: props.datapack.userId,
+                    hash: nowFileIPFS,
+                    ethkey: ethkey,
+                    s: s
+                }
+                props.modelhandle.ShowMessageByModal("上传文件中", "请稍后...");
+                console.log(JSON.stringify(data));
+                axios({
+                    method: "post",
+                    url: "http://localhost:" + ConfigEnum.BackendPort + "/delieve",
+                    data: JSON.stringify(data),
+                    headers: {"Content-Type": "application/json;charset=utf8"}
+                }).then(r => {
+                    props.modelhandle.ShowMessageByModal("提交成功！", "请耐心等待CA的审核");
+                }, e => {
+                    props.modelhandle.ShowMessageByModal("发生错误", e.toString());
+                })
             }, e => {
-                props.modelhandle.ShowMessageByModal("发生错误", e.toString());
+                props.modelhandle.ShowMessageByModal("错误发生了", e.toString());
             })
         }, function () {
             // let file = FormList[1].getFieldValue("ipfs");
