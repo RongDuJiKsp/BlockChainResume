@@ -213,9 +213,10 @@ send2 ={}
 send3 ={}
 send4={}
 send5 = {}
-#返回随机数和份额给前端
+
 app = Flask(__name__)
 CORS(app)
+#返回随机数和份额给前端
 @app.route('/random1',methods=["POST","GET"])#这个是对函数的路由
 def getnum():
     data = request.get_json()
@@ -239,7 +240,7 @@ def getnum():
 #S m数组 P x数组
 #id分别与密码、随机数、简历哈希值对应
 id = []
-password = {} #id-用户及加密后的登录密码
+password = {} #id-用户登录密码
 #sigrandom = {}
 hash = {}
 key = {}#id-用户加密前的eth私钥
@@ -268,6 +269,23 @@ def signup_data():
         return "True"
     else:
         return "IDerror"
+#根据用户id查找加密后的私钥
+@app.route('/getkey',methods=["POST","GET"])
+def get_key():
+    data = request.get_json()
+    id1 = data['id']
+    return keynew[str(id1)]
+#修改已经注册过的密码
+@app.route('/change',methods=["POST","GET"])
+def change_password():
+    data = request.get_json()
+    id1 = data['id']
+    password1 = data['password']
+    if id1 in password.keys():
+        password[str(id1)]=password1
+        return "Successful"
+    else:
+        return "IDnotexist"
 #登录时验证用户id及密码
 @app.route('/signin',methods=["POST","GET"])
 def signin_data():
