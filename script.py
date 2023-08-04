@@ -274,7 +274,10 @@ def signup_data():
 def get_key():
     data = request.get_json()
     id1 = data['id']
-    return keynew[str(id1)]
+    if id1 in keynew.keys():
+        return keynew[str(id1)]
+    else:
+        return "IDnotexist"
 #修改已经注册过的密码
 @app.route('/change',methods=["POST","GET"])
 def change_password():
