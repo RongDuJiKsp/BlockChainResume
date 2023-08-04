@@ -9,4 +9,13 @@
     width: 33%;
     padding :10px;
     text-align: center;
+    height: 400px;
+}
+.items{
+    margin: auto;
+}
+.FindContextPage{
+    height: 220px;
+    margin-top: 50px;
+    margin-bottom: 30px;
 }
