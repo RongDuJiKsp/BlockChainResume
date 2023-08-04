@@ -1,3 +1,4 @@
+import copy
 from flask import Flask,request,jsonify
 from gevent import pywsgi
 from flask_cors import CORS
@@ -9,7 +10,6 @@ import json
 # from pyunit_prime import is_prime  #slower
 # from pyunit_prime import get_large_prime_bit_size # slower get large prime #slower
 from keygen import generate_random_number
-from pysmx.SM3 import hash_msg
 MMM = []
 PPP = 0
 kkk1 = []
@@ -142,16 +142,11 @@ def getm(t, n, bit_k, k):
 if __name__ == '__main__':
 
     k = generate_random_number(4)
-    SS=""
-    SString=hash_msg(str(k))
-    i=0
-    while(i<len(SString)):
-        SS=SS+SString[i]
-        i=i+2
     print("S ", k)
     bit_k  = k.bit_length()
     #print("bits of k", bit_k)
     testlist = [5,7,9,11,13]
+
     timdis = []
     timrc = []
 
@@ -239,7 +234,7 @@ def getnum():
     send4.update({str(id1):secretnum4})
     send5.update({str(id1):secretnum5})
     data = {
-        "randomnumber": str(SS),#注册完成时呈现给用户
+        "randomnumber": str(k),#注册完成时呈现给用户
     }
     return json.dumps(data)
 
@@ -322,48 +317,48 @@ def signin_data():
     else:
         return "Passworderror"
 caaid = {
-    "10497983":"jiangle",
-    "8902138523":"qidyuanshenong",
-    "782930134":"woaiyuan(shen",
-    "58392035921":"wr3rt&3w#@t",
-    "492895234752":"t34rfe43r",
+    "caadmin01":"wowowo",
+    "caadmin02":"qdyuanshen",
+    "caadmin03":"xtuno1",
+    "caadmin04":"kexinjianli",
+    "caadmin05":"secret",
 }
 caakey = {
-    "10497983":"yuanshen",
-    "8902138523":"xtu",
-    "782930134":"3241",
-    "58392035921":"fwef",
-    "492895234752":"342",
+    "caadmin01":"jiangle",
+    "caadmin02":"qidyuanshenong",
+    "caadmin03":"woaiyuan(shen",
+    "caadmin04":"wr3rt&3w#@t",
+    "caadmin05":"t34rfe43r",
 }
 companyid = {
-    "42342481450":"rqweuygfs%$",
+    "companyadmin":"xtuxtuxtu",
 }
 companykey = {
-    "42342481450":"234",
+    "companyadmin":"234",
 }
 
 #caa下载简历后删除对应用户id的秘密份额
 @app.route('/download',methods=["POST","GET"])
 def deletesecret():
     data1 = request.get_json()
-    if data1['id']=="10497983":
-        SEND6 = send1
+    if data1['id']=="caadmin01":
+        SEND6 = copy.deepcopy(send1)
         send1.clear()
         return json.dumps(SEND6)
-    elif data1['id']=='8902138523':
-        SEND7 = send2
+    elif data1['id']=='caadmin02':
+        SEND7 = copy.deepcopy(send2)
         send2.clear()
         return json.dumps(SEND7)
-    elif data1['id']=='782930134':
-        SEND8 = send3
+    elif data1['id']=='caadmin03':
+        SEND8 = copy.deepcopy(send3)
         send3.clear()
         return json.dumps(SEND8)
-    elif data1['id']=='58392035921':
-        SEND9 = send4
+    elif data1['id']=='caadmin04':
+        SEND9 = copy.deepcopy(send4)
         send4.clear()
         return json.dumps(SEND9)
-    elif data1['id']=='492895234752':
-        SEND10 = send5
+    elif data1['id']=='caadmin05':
+        SEND10 = copy.deepcopy(send5)
         send5.clear()
         return json.dumps(SEND10)
     else:
@@ -447,7 +442,24 @@ def delete():
     hash.pop(str(id1))
     randomS.pop(str(id1))
     return "原神"
-
+#判断caa或公司输入私钥是否和id对应
+@app.route('/iscorrect',methods=["POST","GET"])
+def judge():
+    data1 = request.get_json()
+    id1 = data1['id']
+    key1 = data1['key']
+    if id1 in caaid.keys():
+        if key1 == caakey[str(id1)]:
+            return "True"
+        else:
+            return "Wrong"
+    elif id1 in companyid.keys():
+        if key1 == companykey[str(id1)]:
+            return "True"
+        else:
+            return "Wrong"
+    else:
+        return "IDnotExist"
 
 if __name__=='__main__' :
     server = pywsgi.WSGIServer(('127.0.0.1',8080),app)
