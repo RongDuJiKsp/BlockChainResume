@@ -41,14 +41,12 @@ export default function RootPage(props) {
                                     id: props.datapack.userId
                                 })
                             }).then(r => {
-                                console.log("传入的数据：",JSON.stringify({
-                                    id: props.datapack.userId
-                                }),"返回结果",r);
-                                if (JSON.stringify(r.data) === "{}") {
+                                let strData=JSON.stringify(r.data)
+                                if ( strData=== "{}") {
                                     props.modelhandle.ShowMessageByModal("发生错误！", "下载" + props.datapack.userId + "的时候下载次数已经用尽。。");
                                     return;
                                 }
-                                let blob = new Blob([r.data], {
+                                let blob = new Blob([strData], {
                                     type: 'text/plain'
                                 });
                                 Download(blob, props.datapack.userId + "的部分份额", "text/key");

@@ -97,7 +97,7 @@ export default function EmployeePage(props) {
                 } style={{width: 300, marginLeft: "5px"}}>
                     <Form form={FormList[0]}>
                         <Form.Item name={"ipfs"}>
-                            <Dragger valuePropName="fileList" beforeUpload={() => {
+                            <Dragger accept=".pdf" maxCount={1} valuePropName="fileList" beforeUpload={() => {
                                 return false;
                             }} onChange={(info) => {
                                 if (info.fileList.length === 0) return;
@@ -115,7 +115,7 @@ export default function EmployeePage(props) {
                                 <p className="ant-upload-drag-icon">
                                     <InboxOutlined/>
                                 </p>
-                                <p className="ant-upload-text">点击或拖入文件</p>
+                                <p className="ant-upload-text">点击或拖入pdf格式文件</p>
                             </Dragger>
                         </Form.Item>
                         <p>请在此黏贴您的ETH私钥</p>
