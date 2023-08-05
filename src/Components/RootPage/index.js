@@ -5,6 +5,7 @@ import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
 import {ConfigEnum} from "../../Data/enums";
 import Download from "../../Methods/Download";
+import uploadsonkey from "../../Methods/Chain/uploadsonkey";
 
 export default function RootPage(props) {
     const Jump = useNavigate();
@@ -54,9 +55,9 @@ export default function RootPage(props) {
                         <button className={"btn blue small"} onClick={() => {
                             try {
                                 let obj = JSON.parse(keyData);
-                                let a = Object.keys(obj);
-                                console.log(obj, a);
-
+                                let ids = Object.keys(obj);
+                                console.log(obj, ids);
+                                uploadsonkey(obj[ids[0]][0], obj[ids[0]][1], obj[ids[0]][2], ids[0],null).then(r=>console.log(r),e=>console.log(e));
                             } catch (e) {
                                 props.modelhandle.messageApi.open({
                                     type: "error",

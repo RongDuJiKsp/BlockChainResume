@@ -10,6 +10,7 @@ import {useState} from "react";
 import {ConfigEnum} from "../../Data/enums";
 import axios from "axios";
 import CryptoOfHash from "../../Methods/Chain/CryptoOfHash";
+import givenpower from "../../Methods/Chain/givepower";
 
 export default function EmployeePage(props) {
     const FormList = [useForm()[0], useForm()[0], useForm()[0]];
@@ -55,7 +56,7 @@ export default function EmployeePage(props) {
                 props.modelhandle.ShowMessageByModal("错误发生了", e.toString());
             })
         }, function () {
-            // let file = FormList[1].getFieldValue("ipfs");
+            givenpower(null,null,null).then(r=>console.log(r),e=>console.log(e));
         }, function () {
             props.modelhandle.ShowMessageByModal("下载开始", "不要重复点击下载！");
             let data = {
