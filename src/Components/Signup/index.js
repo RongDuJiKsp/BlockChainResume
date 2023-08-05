@@ -35,7 +35,7 @@ export default function Signup(props) {
         else if (now === my) return "process"
         else return "wait";
     }
-    const inConform = "请牢记程序给出的秘钥和ETH秘钥";
+    const inConform = "请牢记程序给出的秘钥(下面第一行)和ETH秘钥（下面第二行）";
     const SubmitServer = () => {
         let data = {
             idup: tmpUpUserId,

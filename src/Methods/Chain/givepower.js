@@ -1,5 +1,6 @@
-const givenpower = function (walletAddressOfUser, compAddress,userAddress) {
+const givenpower = function (walletAddressOfUser, compID) {
     return new Promise((resolve, reject) => {
+        console.log("#",walletAddressOfUser,compID);
         let Web3 = require("web3");
         let web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
         let abi = [
@@ -302,7 +303,7 @@ const givenpower = function (walletAddressOfUser, compAddress,userAddress) {
         ];
         let contractAddress = '0xF97CA4a5187bBd66767d5bFef32D29812b17D9be';
         let myContract = new web3.eth.Contract(abi, contractAddress);
-        myContract.methods.givenpower( compAddress, userAddress)
+        myContract.methods.givenpower( compID)
             .send({from: walletAddressOfUser, gas: 1000000})
             .on('receipt', function (receipt) {
                 myContract.getPastEvents('givenpowerresult', {
@@ -310,14 +311,6 @@ const givenpower = function (walletAddressOfUser, compAddress,userAddress) {
                 }, function (error, events) {
                     resolve(events[0].returnValues.fedback);
                 }).then()
-                // myContract.getPastEvents('ResultX',{fromBlock: 'latest'})
-                //     .on('ResultX', function (event) {
-                //         console.log(event);
-                //         const result = event.ResultX.resultfedback;
-                //         resolve(result); // 使用 resolve 返回结果
-                //     }).on('error', function (error) {
-                //     reject(error); // 使用 reject 返回错误
-                // });
             })
             .catch((error) => {
                 reject(error); // 处理发送交易错误

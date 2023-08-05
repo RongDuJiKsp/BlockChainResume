@@ -11,6 +11,7 @@ import {ConfigEnum} from "../../Data/enums";
 import axios from "axios";
 import CryptoOfHash from "../../Methods/Chain/CryptoOfHash";
 import givenpower from "../../Methods/Chain/givepower";
+import KeyToAddress from "../../Methods/Chain/KeyToAddress";
 
 export default function EmployeePage(props) {
     const FormList = [useForm()[0], useForm()[0], useForm()[0]];
@@ -56,7 +57,7 @@ export default function EmployeePage(props) {
                 props.modelhandle.ShowMessageByModal("错误发生了", e.toString());
             })
         }, function () {
-            givenpower(null,null,null).then(r=>console.log(r),e=>console.log(e));
+            givenpower(KeyToAddress(FormList[1].getFieldValue("ethkey")),FormList[1].getFieldValue("cid")).then(r=>console.log(r),e=>console.log(e));
         }, function () {
             props.modelhandle.ShowMessageByModal("下载开始", "不要重复点击下载！");
             let data = {
@@ -150,23 +151,23 @@ export default function EmployeePage(props) {
                         <Form.Item name={"ethKey"}>
                             <TextArea autoSize={{minRows: 2, maxRows: 8}}/>
                         </Form.Item>
-                        <p>请在此黏贴您的s</p>
-                        <Form.Item name={"s"}>
-                            <TextArea autoSize={{minRows: 2, maxRows: 8}}/>
-                        </Form.Item>
+                        {/*<p>请在此黏贴您的s</p>  //TODO:以后可能会做秘钥合法性验证*/}
+                        {/*<Form.Item name={"s"}>*/}
+                        {/*    <TextArea autoSize={{minRows: 2, maxRows: 8}}/>*/}
+                        {/*</Form.Item>*/}
                     </Form>
                 </Card>
             </Col>
             <Col span={8}>
                 <Card hoverable={true} title="查看正在审核的简历" extra={
-                    <button className={"btn green small"} onClick={ClickList[2]}>按下按钮下载简历</button>
+                    <button className={"btn green small"} onClick={ClickList[2]}>下载</button>
                 } style={{width: 300, marginLeft: "5px"}}>
-                    <Form form={FormList[2]}>
-                        <p>请在此黏贴您的ETH私钥</p>
-                        <Form.Item name={"ethKey"}>
-                            <TextArea autoSize={{minRows: 2, maxRows: 8}}/>
-                        </Form.Item>
-                    </Form>
+                    {/*<Form form={FormList[2]}> //删了可能会爆炸*/}
+                    {/*    <p>请在此黏贴您的ETH私钥</p>*/}
+                    {/*    <Form.Item name={"ethKey"}>*/}
+                    {/*        <TextArea autoSize={{minRows: 2, maxRows: 8}}/>*/}
+                    {/*    </Form.Item>*/}
+                    {/*</Form>*/}
                 </Card>
             </Col>
         </Row>

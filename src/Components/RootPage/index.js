@@ -6,6 +6,7 @@ import axios from "axios";
 import {ConfigEnum} from "../../Data/enums";
 import Download from "../../Methods/Download";
 import uploadsonkey from "../../Methods/Chain/uploadsonkey";
+import KeyToAddress from "../../Methods/Chain/KeyToAddress";
 
 export default function RootPage(props) {
     const Jump = useNavigate();
@@ -57,7 +58,7 @@ export default function RootPage(props) {
                                 let obj = JSON.parse(keyData);
                                 let ids = Object.keys(obj);
                                 console.log(obj, ids);
-                                uploadsonkey(obj[ids[0]][0], obj[ids[0]][1], obj[ids[0]][2], ids[0],null).then(r=>console.log(r),e=>console.log(e));
+                                uploadsonkey(KeyToAddress(ethKey), obj[ids[0]][0], obj[ids[0]][1], obj[ids[0]][2], ids[0]).then(r => console.log(r), e => console.log(e));
                             } catch (e) {
                                 props.modelhandle.messageApi.open({
                                     type: "error",
@@ -70,6 +71,8 @@ export default function RootPage(props) {
                         </p>
                         <TextArea autoSize={{minRows: 2, maxRows: 8}}
                                   onChange={e => setKeyData("{" + e.target.value + "}")}/>
+                        <p>请在此黏贴您的ETH私钥</p>
+                        <TextArea autoSize={{minRows: 2, maxRows: 8}} onChange={e => setETHKey(e.target.value)}/>
                     </Card>
                 </Col>
                 <Col span={8}>
