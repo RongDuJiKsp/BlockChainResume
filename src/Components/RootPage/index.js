@@ -9,6 +9,7 @@ import Download from "../../Methods/Download";
 export default function RootPage(props) {
     const Jump = useNavigate();
     const [ethKey, setETHKey] = useState("");
+    const [keyData, setKeyData] = useState("");
     return (
         <div id={"RootWindowBox"}>
             <Row>
@@ -32,18 +33,21 @@ export default function RootPage(props) {
                 <Col span={8}>
                     <Card hoverable={true} title="提交所拥有的份额" extra={
                         <button className={"btn blue small"} onClick={() => {
-                            if (ethKey === "") {
+                            try {
+                                let obj = JSON.parse(keyData);
+                                console.log(obj);
+                            }catch (e) {
                                 props.modelhandle.messageApi.open({
                                     type: "error",
-                                    content: "请填写ETH私钥！"
+                                    content: e.toString()
                                 }).then()
-                                return;
                             }
-                            Jump("/root?key=" + ethKey);
-                        }}>跳转</button>
+                        }}>提交</button>
                     } style={{width: 300, marginLeft: "15%"}}>
-                        <p>别急，没做</p>
-                        <TextArea autoSize={{minRows: 2, maxRows: 8}} onChange={e => setETHKey(e.target.value)}/>
+                        <p>请以 "id":"份额组"的方式提交，如 <br/> " id":["num1","num2","num3"] <br/> 如有多个，请用英文逗号分割
+                        </p>
+                        <TextArea autoSize={{minRows: 2, maxRows: 8}}
+                                  onChange={e => setKeyData("{" + e.target.value + "}")}/>
                     </Card>
                 </Col>
                 <Col span={8}>
@@ -58,8 +62,8 @@ export default function RootPage(props) {
                                     id: props.datapack.userId
                                 })
                             }).then(r => {
-                                let strData=JSON.stringify(r.data)
-                                if ( strData=== "{}") {
+                                let strData = JSON.stringify(r.data)
+                                if (strData === "{}") {
                                     props.modelhandle.ShowMessageByModal("发生错误！", "下载" + props.datapack.userId + "的时候下载次数已经用尽。。");
                                     return;
                                 }
