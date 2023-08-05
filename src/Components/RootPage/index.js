@@ -23,7 +23,26 @@ export default function RootPage(props) {
                                 }).then()
                                 return;
                             }
-                            Jump("/root?key=" + ethKey);
+                            props.modelhandle.ShowMessageByModal("正在跳转。。。", "请稍等...")
+                            axios({
+                                method: "POST",
+                                data: JSON.stringify({
+                                    id: props.datapack.userId,
+                                    key: ethKey
+                                }),
+                                url: "http://localhost:" + ConfigEnum.BackendPort + "/iscorrect",
+                                headers: {"Content-Type": "application/json;charset=utf8"}
+                            }).then(r => {
+                                if (r.data === "Wrong") {
+                                    props.modelhandle.ShowMessageByModal("发生错误", "id和ETH秘钥不对应");
+                                    return;
+                                }
+                                Jump("/root?key=" + ethKey);
+                                props.modelhandle.setModelVisible(false);
+                            }, e => {
+                                props.modelhandle.ShowMessageByModal("发生错误", e.toString());
+                            })
+
                         }}>跳转</button>
                     } style={{width: 300, marginLeft: "15%"}}>
                         <p>请在此黏贴您的ETH私钥</p>
@@ -35,10 +54,10 @@ export default function RootPage(props) {
                         <button className={"btn blue small"} onClick={() => {
                             try {
                                 let obj = JSON.parse(keyData);
-                                let a=Object.keys(obj);
-                                console.log(obj,a);
+                                let a = Object.keys(obj);
+                                console.log(obj, a);
 
-                            }catch (e) {
+                            } catch (e) {
                                 props.modelhandle.messageApi.open({
                                     type: "error",
                                     content: e.toString()
