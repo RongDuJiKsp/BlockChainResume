@@ -69,7 +69,7 @@ export default function EmployeePage(props) {
                 headers: {"Content-Type": "application/json;charset=utf8"}
             }).then(r => {
                 if (r.data === "NULL") {
-                    props.modelhandle.ShowMessageByModal("没有检测到你的简历！", "请确认简历是否已经上传")
+                    props.modelhandle.ShowMessageByModal("没有检测到你的简历！", "请确认简历是否正在审核")
                 } else {
                     UpOrDownloadIPFS.get(r.data).then(r => {
                         let tmpBuffer = r.content.buffer;
@@ -158,7 +158,7 @@ export default function EmployeePage(props) {
                 </Card>
             </Col>
             <Col span={8}>
-                <Card hoverable={true} title="查看简历" extra={
+                <Card hoverable={true} title="查看正在审核的简历" extra={
                     <button className={"btn green small"} onClick={ClickList[2]}>按下按钮下载简历</button>
                 } style={{width: 300, marginLeft: "5px"}}>
                     <Form form={FormList[2]}>
