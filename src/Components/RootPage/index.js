@@ -12,7 +12,7 @@ export default function RootPage(props) {
     return (
         <div id={"RootWindowBox"}>
             <Row>
-                <Col span={12}>
+                <Col span={8}>
                     <Card hoverable={true} title="跳转到验证页面" extra={
                         <button className={"btn green small"} onClick={() => {
                             if (ethKey === "") {
@@ -29,7 +29,24 @@ export default function RootPage(props) {
                         <TextArea autoSize={{minRows: 2, maxRows: 8}} onChange={e => setETHKey(e.target.value)}/>
                     </Card>
                 </Col>
-                <Col span={12}>
+                <Col span={8}>
+                    <Card hoverable={true} title="提交所拥有的份额" extra={
+                        <button className={"btn blue small"} onClick={() => {
+                            if (ethKey === "") {
+                                props.modelhandle.messageApi.open({
+                                    type: "error",
+                                    content: "请填写ETH私钥！"
+                                }).then()
+                                return;
+                            }
+                            Jump("/root?key=" + ethKey);
+                        }}>跳转</button>
+                    } style={{width: 300, marginLeft: "15%"}}>
+                        <p>别急，没做</p>
+                        <TextArea autoSize={{minRows: 2, maxRows: 8}} onChange={e => setETHKey(e.target.value)}/>
+                    </Card>
+                </Col>
+                <Col span={8}>
                     <Card hoverable={true} title="获取份额" extra={
                         <button className={"btn purple small"} onClick={() => {
                             props.modelhandle.ShowMessageByModal("下载已经开始！", "请检查下载框。。。");
