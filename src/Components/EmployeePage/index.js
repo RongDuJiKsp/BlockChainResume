@@ -108,6 +108,8 @@ export default function EmployeePage(props) {
                                     UpOrDownloadIPFS.add(Buffer.from(filereader.result)).then(r => {
                                         setNowFileIPFS(r);
                                         props.modelhandle.ShowMessageByModal("文件上传成功！", "请确认信息无误后点击提交");
+                                    },e=>{
+                                        props.modelhandle.ShowMessageByModal("文件上传失败！", "可能是网络出问题了"+e.toString());
                                     });
                                 };
 

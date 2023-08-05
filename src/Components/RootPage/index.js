@@ -35,7 +35,9 @@ export default function RootPage(props) {
                         <button className={"btn blue small"} onClick={() => {
                             try {
                                 let obj = JSON.parse(keyData);
-                                console.log(obj);
+                                let a=Object.keys(obj);
+                                console.log(obj,a);
+
                             }catch (e) {
                                 props.modelhandle.messageApi.open({
                                     type: "error",
