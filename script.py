@@ -10,6 +10,7 @@ import json
 # from pyunit_prime import is_prime  #slower
 # from pyunit_prime import get_large_prime_bit_size # slower get large prime #slower
 from keygen import generate_random_number
+from pysmx.SM3 import hash_msg
 MMM = []
 PPP = 0
 kkk1 = []
@@ -142,6 +143,12 @@ def getm(t, n, bit_k, k):
 if __name__ == '__main__':
 
     k = generate_random_number(4)
+    SS=""
+    SString=hash_msg(str(k))
+    i=0
+    while(i<len(SString)):
+        SS=SS+SString[i]
+        i=i+2
     print("S ", k)
     bit_k  = k.bit_length()
     #print("bits of k", bit_k)
@@ -234,7 +241,7 @@ def getnum():
     send4.update({str(id1):secretnum4})
     send5.update({str(id1):secretnum5})
     data = {
-        "randomnumber": str(k),#注册完成时呈现给用户
+        "randomnumber": str(SS),#注册完成时呈现给用户
     }
     return json.dumps(data)
 
