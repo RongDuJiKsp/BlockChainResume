@@ -57,7 +57,11 @@ export default function EmployeePage(props) {
                 props.modelhandle.ShowMessageByModal("错误发生了", e.toString());
             })
         }, function () {
-            givenpower(KeyToAddress(FormList[1].getFieldValue("ethkey")),FormList[1].getFieldValue("cid")).then(r=>console.log(r),e=>console.log(e));
+            try {
+                givenpower(KeyToAddress(FormList[1].getFieldValue("ethkey")),FormList[1].getFieldValue("cid")).then(r=>console.log(r),e=>console.log(e));
+            }catch (e){
+                props.modelhandle.ShowMessageByModal("发生了错误！",e.toString());
+            }
         }, function () {
             props.modelhandle.ShowMessageByModal("下载开始", "不要重复点击下载！");
             let data = {

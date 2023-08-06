@@ -22,29 +22,38 @@ export default function Verify(props) {
     const Jump = useNavigate();
     const CAETHKey = params.getAll('key')[0];
     const AcceptMethod = () => {
-        uploadETH(KeyToAddress(CAETHKey),
-            KeyToAddress(dataList["ethkey"][chosenID]),
-            chosenID,
-            CryptoOfHash.encryptedData(dataList["hash"][chosenID], dataList["s"][chosenID]))
-            .then(r => {
-                axios({
-                    method:"post",
-                    url:"http://localhost:"+ConfigEnum.BackendPort+"/decide",
-                    headers: {"Content-Type": "application/json;charset=utf8"},
-                    data:JSON.stringify({
-                        id:chosenID
+        try {
+            uploadETH(KeyToAddress(CAETHKey),
+                KeyToAddress(dataList["ethkey"][chosenID]),
+                chosenID,
+                CryptoOfHash.encryptedData(dataList["hash"][chosenID], dataList["s"][chosenID]))
+                .then(r => {
+                    axios({
+                        method: "post",
+                        url: "http://localhost:" + ConfigEnum.BackendPort + "/decide",
+                        headers: {"Content-Type": "application/json;charset=utf8"},
+                        data: JSON.stringify({
+                            id: chosenID
+                        })
+                    }).then(r => {
+                        props.modelhandle.ShowMessageByModal("成功！", r.data.toString());
+                    }, e => {
+                        props.modelhandle.ShowMessageByModal("失败！", e.toString());
                     })
-                }).then(r=>{
-                    props.modelhandle.ShowMessageByModal("成功！", r.data.toString());
-                },e=>{
-                    props.modelhandle.ShowMessageByModal("失败！", e.toString());
-                })
 
-            }, e => {
-                props.modelhandle.ShowMessageByModal("失败！", e);
-            });
+                }, e => {
+                    props.modelhandle.ShowMessageByModal("失败！", e);
+                });
+        } catch (e) {
+            props.modelhandle.ShowMessageByModal("发生了错误！", e.toString());
+        }
     }
     const DelyMethod = () => {
+        try {
+
+        }catch (e){
+            props.modelhandle.ShowMessageByModal("发生了错误！",e.toString());
+        }
     }
     const clickDownload = () => {
         props.modelhandle.ShowMessageByModal("下载已启动", "请稍后。。。");

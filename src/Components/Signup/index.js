@@ -37,28 +37,34 @@ export default function Signup(props) {
     }
     const inConform = "请牢记程序给出的秘钥(下面第一行)和ETH秘钥（下面第二行）";
     const SubmitServer = () => {
-        let data = {
-            idup: tmpUpUserId,
-            passwordup: CryptoOfHash.hashData(tmpUpUserPassword),
-            key: CryptoOfHash.encryptedData(tmpUpUserETHKey, tmpUpUserRandomKey)
-        }
-        axios({
-            method: "post",
-            url: "http://localhost:" + ConfigEnum.BackendPort + "/signup",
-            data: JSON.stringify(data),
-            headers: {"Content-Type": "application/json;charset=utf8"}
-        }).then(r => {
-            if (r.status === 200 && r.data === "True") setFinishStatus(e => {
-                return e + 1
-            })
-            else {
-                form.setFieldValue("help", "提交失败，请重新点击提交按钮 错误为：" + r.data)
-                StatusManager.ChangeStateOfArray(setLoadings, 0, false);
+        try {
+            let data = {
+                idup: tmpUpUserId,
+                passwordup: CryptoOfHash.hashData(tmpUpUserPassword),
+                key: CryptoOfHash.encryptedData(tmpUpUserETHKey, tmpUpUserRandomKey)
             }
-        }, e => {
-            form.setFieldValue("help", "提交失败，请重新点击提交按钮 错误为：" + e.toString())
+            axios({
+                method: "post",
+                url: "http://localhost:" + ConfigEnum.BackendPort + "/signup",
+                data: JSON.stringify(data),
+                headers: {"Content-Type": "application/json;charset=utf8"}
+            }).then(r => {
+                if (r.status === 200 && r.data === "True") setFinishStatus(e => {
+                    return e + 1
+                })
+                else {
+                    form.setFieldValue("help", "提交失败，请重新点击提交按钮 错误为：" + r.data)
+                    // StatusManager.ChangeStateOfArray(setLoadings, 0, false);
+                }
+            }, e => {
+                form.setFieldValue("help", "提交失败，请重新点击提交按钮 错误为：" + e.toString())
+                // StatusManager.ChangeStateOfArray(setLoadings, 0, false);
+            })
+        }catch (e){
+            props.modelhandle.ShowMessageByModal("发生错误！！",e.toString());
+        }finally {
             StatusManager.ChangeStateOfArray(setLoadings, 0, false);
-        })
+        }
     }
     const ShowFinalData = () => {
         form.setFieldValue("cid", "你的id是 : " + tmpUpUserId);

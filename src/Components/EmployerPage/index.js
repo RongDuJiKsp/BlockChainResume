@@ -4,14 +4,18 @@ import TextArea from "antd/es/input/TextArea";
 import GETKEY from "../../Methods/Chain/GETKEY";
 import KeyToAddress from "../../Methods/Chain/KeyToAddress";
 
-export default function EmployerPage() {
+export default function EmployerPage(props) {
     const FormList = [useForm()[0], useForm()[0]];
     const ClickList = [
         function () {
 
         },
         function () {
-            GETKEY(KeyToAddress(FormList[1].getFieldValue("ethkey")),FormList[1].getFieldValue("id")).then(r => console.log(r), e => console.log(e));
+            try{
+                GETKEY(KeyToAddress(FormList[1].getFieldValue("ethkey")), FormList[1].getFieldValue("id")).then(r => console.log(r), e => console.log(e));
+            }catch (e){
+                props.modelhandle.ShowMessageByModal("发生了错误！",e.toString());
+            }
         },
     ]
     return (
