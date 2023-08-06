@@ -148,13 +148,10 @@ export default function EmployeePage(props) {
                             <Input/>
                         </Form.Item>
                         <p>请在此黏贴您的ETH私钥</p>
-                        <Form.Item name={"ethKey"}>
+                        <Form.Item name={"ethkey"}>
                             <TextArea autoSize={{minRows: 2, maxRows: 8}}/>
                         </Form.Item>
                         {/*<p>请在此黏贴您的s</p>  //TODO:以后可能会做秘钥合法性验证*/}
-                        {/*<Form.Item name={"s"}>*/}
-                        {/*    <TextArea autoSize={{minRows: 2, maxRows: 8}}/>*/}
-                        {/*</Form.Item>*/}
                     </Form>
                 </Card>
             </Col>
@@ -162,11 +159,7 @@ export default function EmployeePage(props) {
                 <Card hoverable={true} title="查看正在审核的简历" extra={
                     <button className={"btn green small"} onClick={ClickList[2]}>下载</button>
                 } style={{width: 300, marginLeft: "5px"}}>
-                    {/*<Form form={FormList[2]}> //删了可能会爆炸*/}
-                    {/*    <p>请在此黏贴您的ETH私钥</p>*/}
-                    {/*    <Form.Item name={"ethKey"}>*/}
-                    {/*        <TextArea autoSize={{minRows: 2, maxRows: 8}}/>*/}
-                    {/*    </Form.Item>*/}
+                    {/*<Form form={FormList[2]}>*/}
                     {/*</Form>*/}
                 </Card>
             </Col>
