@@ -99,7 +99,7 @@ export default function EmployeePage(props) {
                 } style={{width: 300, marginLeft: "5px"}}>
                     <Form form={FormList[0]}>
                         <Form.Item name={"ipfs"}>
-                            <Dragger accept=".pdf" maxCount={1} valuePropName="fileList" beforeUpload={() => {
+                            <Dragger accept=".pdf" maxCount={1} beforeUpload={() => {
                                 return false;
                             }} onChange={(info) => {
                                 if (info.fileList.length === 0) return;
