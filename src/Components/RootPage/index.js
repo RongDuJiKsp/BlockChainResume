@@ -18,10 +18,10 @@ export default function RootPage(props) {
                     <Card hoverable={true} title="跳转到验证页面" extra={
                         <button className={"btn green small"} onClick={() => {
                             if (ethKey === "") {
-                                props.modelhandle.messageApi.open({
-                                    type: "error",
-                                    content: "请填写ETH私钥！"
-                                }).then()
+                                // props.modelhandle.messageApi.open({
+                                //     type: "error",
+                                //     content: "请填写ETH私钥！"
+                                // }).then()
                                 return;
                             }
                             props.modelhandle.ShowMessageByModal("正在跳转。。。", "请稍等...");
@@ -64,10 +64,10 @@ export default function RootPage(props) {
                                     return r;
                                 })
                               } catch (e) {
-                                props.modelhandle.messageApi.open({
-                                    type: "error",
-                                    content: e.toString()
-                                }).then()
+                                // props.modelhandle.messageApi.open({
+                                //     type: "error",
+                                //     content: e.toString()
+                                // }).then()
                             }
                         }}>提交</button>
                     } style={{width: 300, marginLeft: "15%"}}>
