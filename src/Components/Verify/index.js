@@ -26,16 +26,16 @@ export default function Verify(props) {
                 chosenID,
                 CryptoOfHash.encryptedData(dataList["hash"][chosenID], dataList["s"][chosenID]))
                 .then(r => {
+                    props.modelhandle.ShowMessageByModal("成功！", r);
                     axios({
                         method: "post",
                         url: "http://localhost:" + ConfigEnum.BackendPort + "/decide",
                         headers: {"Content-Type": "application/json;charset=utf8"},
                         data: JSON.stringify({
-                            id: chosenID
+                            id: chosenID,
+                            caid:props.datapack.userId
                         })
-                    }).then(res => {
-                        props.modelhandle.ShowMessageByModal("成功！", r.data);
-                    }, e => {
+                    }).then(res => {}, e => {
                         props.modelhandle.ShowMessageByModal("失败！", e.toString());
                     })
 
@@ -52,7 +52,8 @@ export default function Verify(props) {
                 url: "http://localhost:" + ConfigEnum.BackendPort + "/decide",
                 headers: {"Content-Type": "application/json;charset=utf8"},
                 data: JSON.stringify({
-                    id: chosenID
+                    id: chosenID,
+                    caid:props.datapack.userId
                 })
             }).then(r => {
                 props.modelhandle.ShowMessageByModal("成功！", r.data.toString());
@@ -78,7 +79,14 @@ export default function Verify(props) {
         setChosenID(e);
     }
     const freshData = () => {
-        axios.get("http://localhost:" + ConfigEnum.BackendPort + "/getlist").then(r => {
+        axios({
+            url:"http://localhost:" + ConfigEnum.BackendPort + "/getlist",
+            method:"post",
+            headers: {"Content-Type": "application/json;charset=utf8"},
+            data: JSON.stringify({
+                caid:props.datapack.userId
+            })
+        }).then(r => {
             setDatas(Object.keys(r.data["hash"]));
             setDataList(r.data);
         }, e => {
