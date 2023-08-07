@@ -4,7 +4,7 @@ import "./index.css"
 import "../../ModelCSS/Button.css"
 import {useState} from "react";
 import {useForm} from "antd/lib/form/Form";
-import {useNavigate, useSearchParams} from "react-router-dom";
+import {useSearchParams} from "react-router-dom";
 import Download from "../../Methods/Download";
 import axios from "axios";
 import {ConfigEnum} from "../../Data/enums";
@@ -19,7 +19,6 @@ export default function Verify(props) {
     const [chosenID, setChosenID] = useState("");
     const [params] = useSearchParams()
     const [form] = useForm();
-    const Jump = useNavigate();
     const CAETHKey = params.getAll('key')[0];
     const AcceptMethod = () => {
         try {
@@ -106,7 +105,7 @@ export default function Verify(props) {
     })
     return (
         <Content style={{height: "700px"}}>
-            <button className={"btn-two blue"} onClick={() => Jump("/")}>go back</button>
+            <button className={"btn-two blue"} onClick={() => props.datapack.Jump("/")}>go back</button>
             <button className={"btn-two green"} onClick={freshData}>fresh data</button>
             <div id={"VerifyWindow"}>
                 <div style={{float: "left", marginLeft: "10%"}}>

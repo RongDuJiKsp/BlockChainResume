@@ -59,9 +59,11 @@ export default function App() {
             {loginState === LoginStateEnum.none ? <Login methodpack={{
                 setLoginState: setLoginState,
                 setUserId: setUserId,
+                Jump:Jump
             }} modelhandle={modelHandle}/> : <ProjectRouter datapack={{
                 loginState: loginState,
                 userId: userId,
+                Jump:Jump,
                 logoutfunc: logoutfunc,
             }} modelhandle={modelHandle}/>}
         </>

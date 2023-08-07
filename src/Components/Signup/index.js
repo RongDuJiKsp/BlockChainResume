@@ -10,7 +10,6 @@ import {
     UserOutlined
 } from "@ant-design/icons";
 import {useState} from "react";
-import {useNavigate} from "react-router-dom";
 import {useForm} from "antd/lib/form/Form";
 import {ConfigEnum, ETHKeyEnum, ValidateStatusEnum} from "../../Data/enums";
 import CheckObj from "../../Methods/CheckObj";
@@ -92,7 +91,6 @@ export default function Signup(props) {
             StatusManager.ChangeStateOfArray(setLoadings, 1, false);
         })
     }
-    const Jump = useNavigate();
     const Submit = [{
         LastItemNumber: 3,
 
@@ -193,7 +191,7 @@ export default function Signup(props) {
         }
     }, {
         func: () => {
-            Jump("/");
+            props.datapack.Jump("/");
             props.datapack.logoutfunc();
         },
         rand: () => {

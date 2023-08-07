@@ -1,5 +1,4 @@
 import {Card, Col, Row} from "antd";
-import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 import TextArea from "antd/es/input/TextArea";
 import axios from "axios";
@@ -9,7 +8,6 @@ import uploadsonkey from "../../Methods/Chain/uploadsonkey";
 import KeyToAddress from "../../Methods/Chain/KeyToAddress";
 
 export default function RootPage(props) {
-    const Jump = useNavigate();
     const [ethKey, setETHKey] = useState("");
     const [keyData, setKeyData] = useState("");
     return (
@@ -39,7 +37,7 @@ export default function RootPage(props) {
                                     props.modelhandle.ShowMessageByModal("发生错误", "id和ETH秘钥不对应");
                                     return;
                                 }
-                                Jump("/root?key=" + ethKey);
+                                props.datapack.Jump("/root?key=" + ethKey);
                                 props.modelhandle.setModelVisible(false);
                             }, e => {
                                 props.modelhandle.ShowMessageByModal("发生错误", e.toString());
@@ -57,8 +55,12 @@ export default function RootPage(props) {
                             try {
                                 let obj = JSON.parse(keyData);
                                 let ids = Object.keys(obj);
-                                console.log(obj, ids);
-                                uploadsonkey(KeyToAddress(ethKey), obj[ids[0]][0], obj[ids[0]][1], obj[ids[0]][2], ids[0]).then(r => console.log(r), e => console.log(e));
+                                ids.map(r=>{
+                                    uploadsonkey(KeyToAddress(ethKey),obj[r][0],obj[r][1],obj[r][2],r).then(r=>{console.log(r);},e=>{console.error(e)})
+                                    return r;
+                                })
+                                // console.log(obj, ids);
+                                // uploadsonkey(KeyToAddress(ethKey), obj[ids[0]][0], obj[ids[0]][1], obj[ids[0]][2], ids[0]).then(r => console.log(r), e => console.log(e));
                             } catch (e) {
                                 props.modelhandle.messageApi.open({
                                     type: "error",

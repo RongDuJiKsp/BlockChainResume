@@ -6,7 +6,7 @@ export const ValidateStatusEnum = {
 }
 export const LoginStateEnum = {
     none: "none",
-    root: "root",
+    root: "ca",
     employer: "employer",
     employee: "employee",
     register: "register",
@@ -20,7 +20,8 @@ export const ConfigEnum = {
     SupposedFileType: "application/pdf",
     FileType: {
         "application/pdf": ".pdf",
-        "text/key":".key"
+        "text/key":".key",
+        "text/plain":".txt"
     }
 }
 export const ETHKeyEnum = {

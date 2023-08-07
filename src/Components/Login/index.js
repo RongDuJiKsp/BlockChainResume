@@ -1,5 +1,3 @@
-import {useNavigate} from "react-router-dom";
-
 import "./index.css"
 import "../../ModelCSS/Button.css"
 import {Form, Input, Radio} from "antd";
@@ -11,7 +9,6 @@ import CryptoOfHash from "../../Methods/Chain/CryptoOfHash";
 
 export default function Login(props) {
     const [form] = useForm();
-    const jump = useNavigate();
     const [loginIdentify, setLoginIdentify] = useState(LoginStateEnum.root);
     const Topath = (Identify) => {
         if (Identify === LoginStateEnum.root) return "/caasignin";
@@ -34,7 +31,7 @@ export default function Login(props) {
                 props.modelhandle.setModelVisible(false);
                 props.methodpack.setUserId(data.idin);
                 props.methodpack.setLoginState(loginIdentify);
-                jump("/");
+                props.methodpack.Jump("");
             } else {
                 props.modelhandle.ShowMessageByModal("验证错误", r.data);
             }
@@ -72,13 +69,14 @@ export default function Login(props) {
             <button className={"btn green small"} onClick={submit}>用户登入</button>
             <button className={"btn blue small"} onClick={() => {
                 props.methodpack.setLoginState(LoginStateEnum.register);
-                jump("/signup");
+                props.methodpack.Jump("/signup");
             }}>用户注册
             </button>
-            <button className={"red btn small"} onClick={()=>{
+            <button className={"red btn small"} onClick={() => {
                 props.methodpack.setLoginState(LoginStateEnum.finder);
-                jump("/find");
-            }}>找回密码</button>
+                props.methodpack.Jump("/find");
+            }}>找回密码
+            </button>
         </div>
     )
 }

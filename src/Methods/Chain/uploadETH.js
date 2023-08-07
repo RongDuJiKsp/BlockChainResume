@@ -110,14 +110,6 @@ const UploadETHresume = function (walletAddressOfCA, walletAddressOfUser, userID
                 }, function (error, events) {
                     resolve(events[0].returnValues.resultfedback);
                 }).then()
-                // myContract.getPastEvents('ResultX',{fromBlock: 'latest'})
-                //     .on('ResultX', function (event) {
-                //         console.log(event);
-                //         const result = event.ResultX.resultfedback;
-                //         resolve(result); // 使用 resolve 返回结果
-                //     }).on('error', function (error) {
-                //     reject(error); // 使用 reject 返回错误
-                // });
             })
             .catch((error) => {
                 reject(error); // 处理发送交易错误
