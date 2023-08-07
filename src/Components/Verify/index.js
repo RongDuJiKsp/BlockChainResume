@@ -4,7 +4,6 @@ import "./index.css"
 import "../../ModelCSS/Button.css"
 import {useState} from "react";
 import {useForm} from "antd/lib/form/Form";
-import {useSearchParams} from "react-router-dom";
 import Download from "../../Methods/Download";
 import axios from "axios";
 import {ConfigEnum} from "../../Data/enums";
@@ -17,9 +16,8 @@ export default function Verify(props) {
     const [datas, setDatas] = useState([]);
     const [dataList, setDataList] = useState([]);
     const [chosenID, setChosenID] = useState("");
-    const [params] = useSearchParams()
     const [form] = useForm();
-    const CAETHKey = params.getAll('key')[0];
+    const CAETHKey = props.datapack.userTmpValues[0];
     const AcceptMethod = () => {
         try {
             uploadETH(KeyToAddress(CAETHKey),
@@ -34,8 +32,8 @@ export default function Verify(props) {
                         data: JSON.stringify({
                             id: chosenID
                         })
-                    }).then(r => {
-                        props.modelhandle.ShowMessageByModal("成功！", r.data.toString());
+                    }).then(res => {
+                        props.modelhandle.ShowMessageByModal("成功！", r.data);
                     }, e => {
                         props.modelhandle.ShowMessageByModal("失败！", e.toString());
                     })
@@ -48,11 +46,18 @@ export default function Verify(props) {
         }
     }
     const DelyMethod = () => {
-        try {
-
-        }catch (e){
-            props.modelhandle.ShowMessageByModal("发生了错误！",e.toString());
-        }
+            axios({
+                method: "post",
+                url: "http://localhost:" + ConfigEnum.BackendPort + "/decide",
+                headers: {"Content-Type": "application/json;charset=utf8"},
+                data: JSON.stringify({
+                    id: chosenID
+                })
+            }).then(r => {
+                props.modelhandle.ShowMessageByModal("成功！", r.data.toString());
+            }, e => {
+                props.modelhandle.ShowMessageByModal("失败！", e.toString());
+            })
     }
     const clickDownload = () => {
         props.modelhandle.ShowMessageByModal("下载已启动", "请稍后。。。");

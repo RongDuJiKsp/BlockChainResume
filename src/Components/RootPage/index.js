@@ -6,6 +6,7 @@ import {ConfigEnum} from "../../Data/enums";
 import Download from "../../Methods/Download";
 import uploadsonkey from "../../Methods/Chain/uploadsonkey";
 import KeyToAddress from "../../Methods/Chain/KeyToAddress";
+import StatusManager from "../../Methods/StatusManager";
 
 export default function RootPage(props) {
     const [ethKey, setETHKey] = useState("");
@@ -37,8 +38,9 @@ export default function RootPage(props) {
                                     props.modelhandle.ShowMessageByModal("发生错误", "id和ETH秘钥不对应");
                                     return;
                                 }
-                                props.datapack.Jump("/root?key=" + ethKey);
+                                props.datapack.Jump("/root");
                                 props.modelhandle.setModelVisible(false);
+                                StatusManager.ChangeStateOfArray(props.datapack.setUserTmpValues,0,ethKey);
                             }, e => {
                                 props.modelhandle.ShowMessageByModal("发生错误", e.toString());
                             })
@@ -54,6 +56,7 @@ export default function RootPage(props) {
                         <button className={"btn blue small"} onClick={() => {
                             try {
                                 let obj = JSON.parse(keyData);
+                                console.log(obj);
                                 let ids = Object.keys(obj);
                                 ids.map(r=>{
                                     uploadsonkey(KeyToAddress(ethKey),obj[r][0],obj[r][1],obj[r][2],r).then(r=>{console.log(r);},e=>{console.error(e)})

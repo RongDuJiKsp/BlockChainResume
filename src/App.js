@@ -16,6 +16,7 @@ export default function App() {
         Jump("/");
     }
     const [userId, setUserId] = useState("");
+    const [userTmpValues,setUserTmpValues]=useState([""]);
     const [messageApi, contextHolder] = message.useMessage();
     const [isModelVisible, setModelVisible] = useState(false);
     const [modelContents, setModelContents] = useState(["title", "tips", () => {
@@ -64,6 +65,8 @@ export default function App() {
                 loginState: loginState,
                 userId: userId,
                 Jump:Jump,
+                userTmpValues:userTmpValues,
+                setUserTmpValues:setUserTmpValues,
                 logoutfunc: logoutfunc,
             }} modelhandle={modelHandle}/>}
         </>
