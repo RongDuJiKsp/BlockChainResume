@@ -24,26 +24,27 @@ export default function RootPage(props) {
                                 }).then()
                                 return;
                             }
-                            props.modelhandle.ShowMessageByModal("正在跳转。。。", "请稍等...")
-                            axios({
-                                method: "POST",
-                                data: JSON.stringify({
-                                    id: props.datapack.userId,
-                                    key: ethKey
-                                }),
-                                url: "http://localhost:" + ConfigEnum.BackendPort + "/iscorrect",
-                                headers: {"Content-Type": "application/json;charset=utf8"}
-                            }).then(r => {
-                                if (r.data === "Wrong") {
-                                    props.modelhandle.ShowMessageByModal("发生错误", "id和ETH秘钥不对应");
-                                    return;
-                                }
-                                props.datapack.Jump("/root");
-                                props.modelhandle.setModelVisible(false);
-                                StatusManager.ChangeStateOfArray(props.datapack.setUserTmpValues,0,ethKey);
-                            }, e => {
-                                props.modelhandle.ShowMessageByModal("发生错误", e.toString());
-                            })
+                            props.modelhandle.ShowMessageByModal("正在跳转。。。", "请稍等...");
+                            StatusManager.ChangeStateOfArray(props.datapack.setUserTmpValues,0,ethKey);
+                            props.datapack.Jump("/root");
+                            // axios({
+                            //     method: "POST",
+                            //     data: JSON.stringify({
+                            //         id: props.datapack.userId,
+                            //         key: ethKey
+                            //     }),
+                            //     url: "http://localhost:" + ConfigEnum.BackendPort + "/iscorrect",
+                            //     headers: {"Content-Type": "application/json;charset=utf8"}
+                            // }).then(r => {
+                            //     if (r.data === "Wrong") {
+                            //         props.modelhandle.ShowMessageByModal("发生错误", "id和ETH秘钥不对应");
+                            //         return;
+                            //     }
+                            //     props.modelhandle.setModelVisible(false);
+                            //
+                            // }, e => {
+                            //     props.modelhandle.ShowMessageByModal("发生错误", e.toString());
+                            // })
 
                         }}>跳转</button>
                     } style={{width: 300, marginLeft: "15%"}}>
@@ -62,9 +63,7 @@ export default function RootPage(props) {
                                     uploadsonkey(KeyToAddress(ethKey),obj[r][0],obj[r][1],obj[r][2],r).then(r=>{console.log(r);},e=>{console.error(e)})
                                     return r;
                                 })
-                                // console.log(obj, ids);
-                                // uploadsonkey(KeyToAddress(ethKey), obj[ids[0]][0], obj[ids[0]][1], obj[ids[0]][2], ids[0]).then(r => console.log(r), e => console.log(e));
-                            } catch (e) {
+                              } catch (e) {
                                 props.modelhandle.messageApi.open({
                                     type: "error",
                                     content: e.toString()
