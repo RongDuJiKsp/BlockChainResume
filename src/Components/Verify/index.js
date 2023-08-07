@@ -134,7 +134,7 @@ export default function Verify(props) {
                         </Popconfirm>
                     </div>
                 </div>
-                <div style={{float: "right", marginRight: "15%", width: "30%"}}>
+                <div style={{ marginLeft: "45%", width: "30%"}}>
                     <Table size={"middle"} bordered pagination={["bottomRight"]}
                            dataSource={data} columns={columns}
                     ></Table></div>

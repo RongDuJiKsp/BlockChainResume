@@ -16,7 +16,7 @@ export default function ProjectRouter(props) {
             <Routes>
                 <Route exact={true} path={"/"}
                        element={<Home datapack={props.datapack} modelhandle={props.modelhandle}/>}></Route>
-                <Route exact={false} path={"/signup"}
+                <Route  path={"/signup"}
                        element={<Signup datapack={props.datapack} modelhandle={props.modelhandle}/>}></Route>
                 <Route path={"/root"}
                        element={<Verify datapack={props.datapack} modelhandle={props.modelhandle}/>}></Route>
