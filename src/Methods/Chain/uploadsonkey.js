@@ -303,7 +303,7 @@ const Uploadsonkey = function (walletAddressOfCA,xs, ms, ps, userid) {
         ];
         let contractAddress = '0xF97CA4a5187bBd66767d5bFef32D29812b17D9be';
         let myContract = new web3.eth.Contract(abi, contractAddress);
-        myContract.methods.upload_sonkey(Number(xs), Number(ms), Number(ps), userid)
+        myContract.methods.upload_sonkey(String(xs), String(ms), String(ps), userid)
             .send({from: walletAddressOfCA, gas: 1000000})
             .on('receipt', function (receipt) {
                 myContract.getPastEvents('uploadkeysfedback', {

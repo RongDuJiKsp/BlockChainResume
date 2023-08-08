@@ -27,25 +27,6 @@ export default function RootPage(props) {
                             props.modelhandle.ShowMessageByModal("正在跳转。。。", "请稍等...");
                             StatusManager.ChangeStateOfArray(props.datapack.setUserTmpValues,0,ethKey);
                             props.datapack.Jump("/root");
-                            // axios({
-                            //     method: "POST",
-                            //     data: JSON.stringify({
-                            //         id: props.datapack.userId,
-                            //         key: ethKey
-                            //     }),
-                            //     url: "http://localhost:" + ConfigEnum.BackendPort + "/iscorrect",
-                            //     headers: {"Content-Type": "application/json;charset=utf8"}
-                            // }).then(r => {
-                            //     if (r.data === "Wrong") {
-                            //         props.modelhandle.ShowMessageByModal("发生错误", "id和ETH秘钥不对应");
-                            //         return;
-                            //     }
-                            //     props.modelhandle.setModelVisible(false);
-                            //
-                            // }, e => {
-                            //     props.modelhandle.ShowMessageByModal("发生错误", e.toString());
-                            // })
-
                         }}>跳转</button>
                     } style={{width: 300, marginLeft: "15%"}}>
                         <p>请在此黏贴您的ETH私钥</p>
