@@ -254,6 +254,9 @@ hash = {}
 key = {}#id-用户加密前的eth私钥
 randomS = {}
 keynew = {}#存id—加密后的eth私钥键值对，永久存
+idtimes ={}#记录id被审核了几次
+idrecord ={}#记录对应id被哪些ca账号审核了
+
 #注册时存储id和密码
 @app.route('/signup',methods=["POST","GET"])
 def signup_data():
@@ -331,17 +334,17 @@ caaid = {
     "caadmin05":"secret",
 }
 caakey = {
-    "caadmin01":"jiangle",
-    "caadmin02":"qidyuanshenong",
-    "caadmin03":"woaiyuan(shen",
-    "caadmin04":"wr3rt&3w#@t",
-    "caadmin05":"t34rfe43r",
+    "caadmin01":"0x72312f94db2835c2e78c85112d16870097212d211bddf5289b05ea6a3e40e546",
+    "caadmin02":"0x872f581698623e252c749b1b772b9e4d02766381b69fc33aed0ff4f8533bc20f",
+    "caadmin03":"0xbd65a811abb917e32cb0f41c312e75d74c4c5e43ec1652b7d71044084f6063d9",
+    "caadmin04":"0xa4f6edf1df594ce6c274694a9cf2e0a5ce91f691ed36695fd16c1a8c1953b039",
+    "caadmin05":"0xe2b63a08e34a06f370d1121412708330fe68c6fd6be6c6dfaf8c1fd50ec76de1",
 }
 companyid = {
     "companyadmin":"xtuxtuxtu",
 }
 companykey = {
-    "companyadmin":"234",
+    "companyadmin":"0x930c8928cdca0ceb603438a405c341537f14053d96c32b0964fb7719b68754a9",
 }
 
 #caa下载简历后删除对应用户id的秘密份额
@@ -420,15 +423,35 @@ def add():
     hash.update({str(id1):str(hash1)})
     key.update({str(id1):str(key1)})
     randomS.update({str(id1):str(randomS1)})
+    idtimes.update({str(id1):0})
+    if str(id1) in idrecord.keys():
+        idrecord[str(id1)].clear()
+    else:
+        idrecord.update({str(id1):[]})
     return json.dumps(data1)
 #ca获得待审简历的列表
 @app.route('/getlist',methods=["POST","GET"])
 def getall():
 #文件哈希值是通过id值来定位的
+    data = request.get_json()
+    caid1 = data['caid']
+    hash1 = copy.deepcopy(hash)
+    key1 = copy.deepcopy(key)
+    randomS1 = copy.deepcopy(randomS)
+    for x in idrecord:
+        flag = 0
+        for y in idrecord[str(x)]:
+            if str(y)==str(caid1):
+                flag = 1
+                break
+        if flag==1 and x in hash1.keys():
+            hash1.pop(str(x))
+            key1.pop(str(x))
+            randomS1.pop(str(x))
     data1 = {
-        "hash":hash,
-        "ethkey":key,
-        "s":randomS
+        "hash":hash1,
+        "ethkey":key1,
+        "s":randomS1
     }
     return json.dumps(data1)
 #根据id查找文件hash值
@@ -440,15 +463,32 @@ def get():
         return str(hash[str(id1)])
     else:
         return "NULL"
-#ca审核通过或不通过，传入用户私钥、ID、简历hash
+#ca审核用户简历，判断是否删去用户私钥、ID、建立hash
 @app.route('/decide',methods=["POST","GET"])
 def delete():
-    data1 = request.get_json()
+    data1 =request.get_json()
     id1 = data1['id']
-    key.pop(str(id1)) 
-    hash.pop(str(id1))
-    randomS.pop(str(id1))
-    return "原神"
+    caid = data1['caid']
+    #没做id的错误判断
+    idrecord[str(id1)].append(str(caid))
+    idtimes[str(id1)]+=1
+    if idtimes[str(id1)]>=3:
+        key.pop(str(id1)) 
+        hash.pop(str(id1))
+        randomS.pop(str(id1))
+        idtimes.pop(str(id1))
+    return "OK"
+
+# #ca审核通过或不通过，传入用户私钥、ID、简历hash
+# @app.route('/decide',methods=["POST","GET"])
+# def delete():
+#     data1 = request.get_json()
+#     id1 = data1['id']
+#     key.pop(str(id1)) 
+#     hash.pop(str(id1))
+#     randomS.pop(str(id1))
+#     return "原神"
+
 #判断caa或公司输入私钥是否和id对应
 @app.route('/iscorrect',methods=["POST","GET"])
 def judge():
