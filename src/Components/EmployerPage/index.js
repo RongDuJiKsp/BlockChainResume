@@ -3,6 +3,9 @@ import {Card, Col, Form, Input, Popconfirm, Row} from "antd";
 import TextArea from "antd/es/input/TextArea";
 import GETKEY from "../../Methods/Chain/GETKEY";
 import KeyToAddress from "../../Methods/Chain/KeyToAddress";
+import CryptoOfHash from "../../Methods/Chain/CryptoOfHash";
+import {ConfigEnum} from "../../Data/enums";
+import axios from "axios";
 
 export default function EmployerPage(props) {
     const FormList = [useForm()[0], useForm()[0]];
@@ -11,10 +14,28 @@ export default function EmployerPage(props) {
 
         },
         function () {
-            try{
-                GETKEY(KeyToAddress(FormList[1].getFieldValue("ethkey")), FormList[1].getFieldValue("id")).then(r => console.log(r), e => console.log(e));
-            }catch (e){
-                props.modelhandle.ShowMessageByModal("发生了错误！",e.toString());
+            try {
+                axios({
+                    method: "POST",
+                    data: JSON.stringify({
+                        id: props.datapack.userId,
+                        key: FormList[1].getFieldValue("ethkey")
+                    }),
+                    url: "http://localhost:" + ConfigEnum.BackendPort + "/getkey",
+                    headers: {"Content-Type": "application/json;charset=utf8"}
+
+                }).then(r => {
+                    GETKEY(KeyToAddress(FormList[1].getFieldValue("ethkey")), FormList[1].getFieldValue("id")).then(r => {
+                        let S = CryptoOfHash.GetRandomKeyS(r);
+                        //TODO:下载文件
+                    }, e => {
+                        props.modelhandle.ShowMessageByModal("发生了错误！", e);
+                    });
+                }, e => {
+                    props.modelhandle.ShowMessageByModal("发生错误", e.toString);
+                })
+            } catch (e) {
+                props.modelhandle.ShowMessageByModal("发生了错误！", e.toString());
             }
         },
     ]

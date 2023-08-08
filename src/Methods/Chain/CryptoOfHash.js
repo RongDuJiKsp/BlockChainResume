@@ -1,4 +1,4 @@
-const {SM4} = require('gm-crypto')
+const {SM3, SM4} = require('gm-crypto')
 const crypto = require("crypto");
 const CryptoOfHash = {
     encryptedData: (originalData//ipfs文件hash
@@ -21,6 +21,14 @@ const CryptoOfHash = {
         const hash = crypto.createHash('md5');
         hash.update(Data);
         return hash.digest('hex');
-    }
+    },
+    GetRandomKeyS: (RandNum) => {
+        let Key = SM3.digest(String(RandNum)).toString();
+        let  res="";
+        for(let i=0;i<Key.length;i++){
+            if(!(i%2)) res+=Key[i];
+        }
+        return res;
+    },
 }
 export default CryptoOfHash;

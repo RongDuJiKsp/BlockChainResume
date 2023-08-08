@@ -15,8 +15,11 @@ export default function App() {
         setUserId("");
         Jump("/");
     }
+    const close = function () {
+        setModelVisible(false);
+    }
     const [userId, setUserId] = useState("");
-    const [userTmpValues,setUserTmpValues]=useState([""]);
+    const [userTmpValues, setUserTmpValues] = useState([""]);
     const [messageApi, contextHolder] = message.useMessage();
     const [isModelVisible, setModelVisible] = useState(false);
     const [modelContents, setModelContents] = useState(["title", "tips", () => {
@@ -37,16 +40,21 @@ export default function App() {
             StatusManager.ChangeStateOfArray(setModelContents, 3, method);
         },
         ShowMessageByModal(title, context) {
+            console.log(title,context);
+            if(typeof title!=="string") title=String(title);
+            if(context!==undefined&&typeof context!=="string") context=String(context);
             this.setTitle(title);
-            this.setContext(context);
+            if (context !== undefined) this.setContext(context);
+            else this.setContext("");
             this.setModelVisible(true);
+        },
+        ResetCheckHappen:()=>{
+            StatusManager.ChangeStateOfArray(setModelContents, 2, close);
+            StatusManager.ChangeStateOfArray(setModelContents, 3, close);
         },
         messageApi: messageApi
     }
     useEffect(() => {//默认设置点击确认，取消为关闭
-        const close = function () {
-            setModelVisible(false);
-        }
         StatusManager.ChangeStateOfArray(setModelContents, 2, close);
         StatusManager.ChangeStateOfArray(setModelContents, 3, close);
     }, [])
@@ -60,13 +68,13 @@ export default function App() {
             {loginState === LoginStateEnum.none ? <Login methodpack={{
                 setLoginState: setLoginState,
                 setUserId: setUserId,
-                Jump:Jump
+                Jump: Jump
             }} modelhandle={modelHandle}/> : <ProjectRouter datapack={{
                 loginState: loginState,
                 userId: userId,
-                Jump:Jump,
-                userTmpValues:userTmpValues,
-                setUserTmpValues:setUserTmpValues,
+                Jump: Jump,
+                userTmpValues: userTmpValues,
+                setUserTmpValues: setUserTmpValues,
                 logoutfunc: logoutfunc,
             }} modelhandle={modelHandle}/>}
         </>

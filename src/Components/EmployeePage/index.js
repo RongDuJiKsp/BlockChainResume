@@ -58,9 +58,13 @@ export default function EmployeePage(props) {
             })
         }, function () {
             try {
-                givenpower(KeyToAddress(FormList[1].getFieldValue("ethkey")),FormList[1].getFieldValue("cid")).then(r=>console.log(r),e=>console.log(e));
-            }catch (e){
-                props.modelhandle.ShowMessageByModal("发生了错误！",e.toString());
+                givenpower(KeyToAddress(FormList[1].getFieldValue("ethkey")), FormList[1].getFieldValue("cid")).then(r => {
+                    props.modelhandle.ShowMessageByModal("操作成功！", r);
+                }, e => {
+                    props.modelhandle.ShowMessageByModal("发生错误！", e);
+                });
+            } catch (e) {
+                props.modelhandle.ShowMessageByModal("发生了错误！", e.toString());
             }
         }, function () {
             props.modelhandle.ShowMessageByModal("下载开始", "不要重复点击下载！");
@@ -114,8 +118,8 @@ export default function EmployeePage(props) {
                                     UpOrDownloadIPFS.add(Buffer.from(filereader.result)).then(r => {
                                         setNowFileIPFS(r);
                                         props.modelhandle.ShowMessageByModal("文件上传成功！", "请确认信息无误后点击提交");
-                                    },e=>{
-                                        props.modelhandle.ShowMessageByModal("文件上传失败！", "可能是网络出问题了"+e.toString());
+                                    }, e => {
+                                        props.modelhandle.ShowMessageByModal("文件上传失败！", "可能是网络出问题了" + e.toString());
                                     });
                                 };
 
@@ -147,7 +151,7 @@ export default function EmployeePage(props) {
                     </Popconfirm>
                 } style={{width: 300, marginLeft: "5px"}}>
                     <Form form={FormList[1]}>
-                        <p>请在此黏贴所授权的公司id</p>
+                        <p>请在此黏贴所授权的公司地址</p>
                         <Form.Item name={"cid"}>
                             <Input/>
                         </Form.Item>

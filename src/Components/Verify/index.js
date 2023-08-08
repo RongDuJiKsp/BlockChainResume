@@ -19,7 +19,13 @@ export default function Verify(props) {
     const [form] = useForm();
     const CAETHKey = props.datapack.userTmpValues[0];
     const AcceptMethod = () => {
-        console.log(CAETHKey);
+        if(chosenID==="") {
+            props.modelhandle.messageApi.open({
+                content: "请选择一个待审核用户！",
+                type: "error"
+            }).then();
+            return;
+        }
         try {
             uploadETH(KeyToAddress(CAETHKey),
                 KeyToAddress(dataList["ethkey"][chosenID]),
@@ -35,7 +41,9 @@ export default function Verify(props) {
                             id: chosenID,
                             caid:props.datapack.userId
                         })
-                    }).then(res => {}, e => {
+                    }).then(res => {
+                        setChosenID("");
+                    }, e => {
                         props.modelhandle.ShowMessageByModal("失败！", e.toString());
                     })
 
@@ -47,6 +55,13 @@ export default function Verify(props) {
         }
     }
     const DelyMethod = () => {
+        if(chosenID==="") {
+            props.modelhandle.messageApi.open({
+                content: "请选择一个待审核用户！",
+                type: "error"
+            }).then();
+            return;
+        }
             axios({
                 method: "post",
                 url: "http://localhost:" + ConfigEnum.BackendPort + "/decide",
@@ -57,11 +72,19 @@ export default function Verify(props) {
                 })
             }).then(r => {
                 props.modelhandle.ShowMessageByModal("成功！", r.data.toString());
+                setChosenID("");
             }, e => {
                 props.modelhandle.ShowMessageByModal("失败！", e.toString());
             })
     }
     const clickDownload = () => {
+        if(chosenID==="") {
+            props.modelhandle.messageApi.open({
+                content: "请选择一个待审核用户！",
+                type: "error"
+            }).then();
+            return;
+        }
         props.modelhandle.ShowMessageByModal("下载已启动", "请稍后。。。");
         let hashvalue = dataList["hash"][chosenID];
         UpOrDownloadIPFS.get(hashvalue).then(r => {

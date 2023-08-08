@@ -38,10 +38,13 @@ export default function RootPage(props) {
                         <button className={"btn blue small"} onClick={() => {
                             try {
                                 let obj = JSON.parse(keyData);
-                                console.log(obj);
                                 let ids = Object.keys(obj);
                                 ids.map(r=>{
-                                    uploadsonkey(KeyToAddress(ethKey),obj[r][0],obj[r][1],obj[r][2],r).then(r=>{console.log(r);},e=>{console.error(e)})
+                                    uploadsonkey(KeyToAddress(ethKey),obj[r][0],obj[r][1],obj[r][2],r).then(r=>{
+                                        props.modelhandle.ShowMessageByModal("操作成功！",r);
+                                        },e=>{
+                                        props.modelhandle.ShowMessageByModal("操作失败！",e)
+                                    })
                                     return r;
                                 })
                               } catch (e) {
