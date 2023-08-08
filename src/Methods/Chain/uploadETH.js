@@ -2,7 +2,7 @@ const UploadETHresume = function (walletAddressOfCA, walletAddressOfUser, userID
     return new Promise((resolve, reject) => {
         let Web3 = require("web3");
         let web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
-        let abi = [
+        let abi =[
             {
                 "anonymous": false,
                 "inputs": [
@@ -17,12 +17,39 @@ const UploadETHresume = function (walletAddressOfCA, walletAddressOfUser, userID
                 "type": "event"
             },
             {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": false,
+                        "internalType": "string",
+                        "name": "status",
+                        "type": "string"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "skey",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "end",
+                "type": "event"
+            },
+            {
                 "inputs": [
                     {
                         "internalType": "address",
-                        "name": "ca",
+                        "name": "companyadd",
                         "type": "address"
-                    },
+                    }
+                ],
+                "name": "givepower",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
                     {
                         "internalType": "string",
                         "name": "userid",
@@ -30,7 +57,7 @@ const UploadETHresume = function (walletAddressOfCA, walletAddressOfUser, userID
                     },
                     {
                         "internalType": "string",
-                        "name": "enhash",
+                        "name": "encodehash",
                         "type": "string"
                     },
                     {
@@ -48,7 +75,48 @@ const UploadETHresume = function (walletAddressOfCA, walletAddressOfUser, userID
                 "inputs": [
                     {
                         "internalType": "string",
-                        "name": "enhash",
+                        "name": "userid",
+                        "type": "string"
+                    }
+                ],
+                "name": "trygetkey",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "psp",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "msp",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "xsp",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "userid",
+                        "type": "string"
+                    }
+                ],
+                "name": "upload_sonkey",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "string",
+                        "name": "encodehash",
                         "type": "string"
                     },
                     {
@@ -62,7 +130,7 @@ const UploadETHresume = function (walletAddressOfCA, walletAddressOfUser, userID
                         "type": "address"
                     }
                 ],
-                "name": "UploadResume",
+                "name": "uploadresume",
                 "outputs": [],
                 "stateMutability": "nonpayable",
                 "type": "function"
@@ -70,25 +138,49 @@ const UploadETHresume = function (walletAddressOfCA, walletAddressOfUser, userID
             {
                 "inputs": [
                     {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
+                        "internalType": "uint256[]",
+                        "name": "m_t",
+                        "type": "uint256[]"
                     }
                 ],
-                "name": "codepower",
+                "name": "divresult",
                 "outputs": [
                     {
-                        "internalType": "bool",
+                        "internalType": "uint256[]",
                         "name": "",
-                        "type": "bool"
+                        "type": "uint256[]"
                     }
                 ],
-                "stateMutability": "view",
+                "stateMutability": "pure",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "a",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "p",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "invmod",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "pure",
                 "type": "function"
             },
             {
                 "inputs": [],
-                "name": "number",
+                "name": "resumenumber",
                 "outputs": [
                     {
                         "internalType": "uint256",
@@ -98,11 +190,40 @@ const UploadETHresume = function (walletAddressOfCA, walletAddressOfUser, userID
                 ],
                 "stateMutability": "view",
                 "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "p",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256[]",
+                        "name": "m",
+                        "type": "uint256[]"
+                    },
+                    {
+                        "internalType": "uint256[]",
+                        "name": "a",
+                        "type": "uint256[]"
+                    }
+                ],
+                "name": "verify_recover",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "pure",
+                "type": "function"
             }
         ];
-        let contractAddress = '0xf997F42d4C4DBC67E2ff298b1DBcdbe5A94C7EcD';
+        let contractAddress = '0x116E1e29CD9301e50f1d7224C0C2D3D41BEE0805';
         let myContract = new web3.eth.Contract(abi, contractAddress);
-        myContract.methods.signPASS(walletAddressOfCA, userID, fileHashBys, walletAddressOfUser)
+        myContract.methods.signPASS(userID, fileHashBys, walletAddressOfUser)
             .send({from: walletAddressOfCA, gas: 1000000})
             .on('receipt', function (receipt) {
                 myContract.getPastEvents('ResultX', {

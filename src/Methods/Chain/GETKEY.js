@@ -3,25 +3,7 @@ const GETKEY = function (walletAddressOfCompany,userID) {
         console.log("%",walletAddressOfCompany,userID);
         let Web3 = require("web3");
         let web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
-        let abi = [
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "company",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "address",
-                        "name": "ownuser",
-                        "type": "address"
-                    }
-                ],
-                "name": "givenpower",
-                "outputs": [],
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
+        let abi =[
             {
                 "anonymous": false,
                 "inputs": [
@@ -41,20 +23,34 @@ const GETKEY = function (walletAddressOfCompany,userID) {
                     {
                         "indexed": false,
                         "internalType": "string",
-                        "name": "fedback",
+                        "name": "status",
                         "type": "string"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "skey",
+                        "type": "uint256"
                     }
                 ],
-                "name": "givenpowerresult",
+                "name": "end",
                 "type": "event"
             },
             {
                 "inputs": [
                     {
                         "internalType": "address",
-                        "name": "ca",
+                        "name": "companyadd",
                         "type": "address"
-                    },
+                    }
+                ],
+                "name": "givepower",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
                     {
                         "internalType": "string",
                         "name": "userid",
@@ -62,7 +58,7 @@ const GETKEY = function (walletAddressOfCompany,userID) {
                     },
                     {
                         "internalType": "string",
-                        "name": "enhash",
+                        "name": "encodehash",
                         "type": "string"
                     },
                     {
@@ -77,35 +73,11 @@ const GETKEY = function (walletAddressOfCompany,userID) {
                 "type": "function"
             },
             {
-                "anonymous": false,
                 "inputs": [
                     {
-                        "indexed": false,
                         "internalType": "string",
-                        "name": "fedback",
+                        "name": "userid",
                         "type": "string"
-                    },
-                    {
-                        "indexed": false,
-                        "internalType": "uint256",
-                        "name": "key",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "tryget",
-                "type": "event"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "company",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "address",
-                        "name": "ownuser",
-                        "type": "address"
                     }
                 ],
                 "name": "trygetkey",
@@ -117,17 +89,17 @@ const GETKEY = function (walletAddressOfCompany,userID) {
                 "inputs": [
                     {
                         "internalType": "uint256",
-                        "name": "ps",
+                        "name": "psp",
                         "type": "uint256"
                     },
                     {
                         "internalType": "uint256",
-                        "name": "ms",
+                        "name": "msp",
                         "type": "uint256"
                     },
                     {
                         "internalType": "uint256",
-                        "name": "xs",
+                        "name": "xsp",
                         "type": "uint256"
                     },
                     {
@@ -142,23 +114,10 @@ const GETKEY = function (walletAddressOfCompany,userID) {
                 "type": "function"
             },
             {
-                "anonymous": false,
-                "inputs": [
-                    {
-                        "indexed": false,
-                        "internalType": "string",
-                        "name": "fedback",
-                        "type": "string"
-                    }
-                ],
-                "name": "uploadkeysfedback",
-                "type": "event"
-            },
-            {
                 "inputs": [
                     {
                         "internalType": "string",
-                        "name": "enhash",
+                        "name": "encodehash",
                         "type": "string"
                     },
                     {
@@ -172,47 +131,9 @@ const GETKEY = function (walletAddressOfCompany,userID) {
                         "type": "address"
                     }
                 ],
-                "name": "UploadResume",
+                "name": "uploadresume",
                 "outputs": [],
                 "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                    }
-                ],
-                "name": "addtoid",
-                "outputs": [
-                    {
-                        "internalType": "string",
-                        "name": "",
-                        "type": "string"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
-                    }
-                ],
-                "name": "codepower",
-                "outputs": [
-                    {
-                        "internalType": "bool",
-                        "name": "",
-                        "type": "bool"
-                    }
-                ],
-                "stateMutability": "view",
                 "type": "function"
             },
             {
@@ -260,7 +181,7 @@ const GETKEY = function (walletAddressOfCompany,userID) {
             },
             {
                 "inputs": [],
-                "name": "number",
+                "name": "resumenumber",
                 "outputs": [
                     {
                         "internalType": "uint256",
@@ -301,12 +222,12 @@ const GETKEY = function (walletAddressOfCompany,userID) {
                 "type": "function"
             }
         ];
-        let contractAddress = '0xF97CA4a5187bBd66767d5bFef32D29812b17D9be';
+        let contractAddress = '0x116E1e29CD9301e50f1d7224C0C2D3D41BEE0805';
         let myContract = new web3.eth.Contract(abi, contractAddress);
-        myContract.methods.givenpower(userID)
+        myContract.methods.trygetkey(userID)
             .send({from: walletAddressOfCompany, gas: 1000000})
             .on('receipt', function (receipt) {
-                myContract.getPastEvents('tryget', {
+                myContract.getPastEvents('end', {
                     toBlock: 'latest'
                 }, function (error, events) {
                     resolve(events[0].returnValues);
