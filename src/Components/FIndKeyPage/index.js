@@ -7,6 +7,11 @@ import axios from "axios";
 import {ConfigEnum} from "../../Data/enums";
 import CryptoOfHash from "../../Methods/Chain/CryptoOfHash";
 import CheckObj from "../../Methods/CheckObj";
+import GETKEY from "../../Methods/Chain/GETKEY";
+import KeyToAddress from "../../Methods/Chain/KeyToAddress";
+import getenResume from "../../Methods/Chain/getenResume";
+import {UpOrDownloadIPFS} from "../../Methods/Chain/upOrDownloadIPFS";
+import Download from "../../Methods/Download";
 
 export default function FIndKeyPage(props) {
     const [userID, setUserID] = useState("");
@@ -161,11 +166,38 @@ export default function FIndKeyPage(props) {
         }, {//第六页用于提交找回s的申请
             render: function () {
                 return (<>
-                    404 NOT FOUND
+                    <h2 style={{marginBottom: 30}}>请填写好有关信息</h2>
+                    <Input.TextArea autoSize={{minRows: 2, maxRows: 8}} placeholder="请在此输入ETH秘钥"
+                                    onChange={(e) => {
+                                        setUserETHKey(e.target.value);
+                                    }}/>
                 </>)
             },
             onNext: function () {
-
+               try {
+                   GETKEY(KeyToAddress(userETHKey),userID).then(r => {
+                       if(Number(r)===0){
+                           props.modelhandle.ShowMessageByModal("发生错误力！","找不到有关此ID的信息,或者没有提交足够的份额");
+                           return;
+                       }
+                       axios({
+                           method: "POST",
+                           data: JSON.stringify({
+                               SSS: r
+                           }),
+                           url: "http://localhost:" + ConfigEnum.BackendPort + "/crypto",
+                           headers: {"Content-Type": "application/json;charset=utf8"}
+                       }).then(r2 => {
+                           props.modelhandle.ShowMessageByModal("请在此复制你的s！",r2);
+                       }, e => {
+                           props.modelhandle.ShowMessageByModal("发生错误！", e);
+                       })
+                   }, e => {
+                       props.modelhandle.ShowMessageByModal("发生了错误！", e);
+                   });
+               }catch (e){
+                   props.modelhandle.ShowMessageByModal("发生了错误！", e);
+               }
             }
         }
     ]
