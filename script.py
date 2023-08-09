@@ -347,17 +347,17 @@ caaid = {
     "caadmin05":"secret",
 }
 caakey = {
-    "caadmin01":"jiangle",
-    "caadmin02":"qidyuanshenong",
-    "caadmin03":"woaiyuan(shen",
-    "caadmin04":"wr3rt&3w#@t",
-    "caadmin05":"t34rfe43r",
+    "caadmin01":"0x930c8928cdca0ceb603438a405c341537f14053d96c32b0964fb7719b68754a9",
+    "caadmin02":"0xe2b63a08e34a06f370d1121412708330fe68c6fd6be6c6dfaf8c1fd50ec76de1",
+    "caadmin03":"0xa4f6edf1df594ce6c274694a9cf2e0a5ce91f691ed36695fd16c1a8c1953b039",
+    "caadmin04":"0xbd65a811abb917e32cb0f41c312e75d74c4c5e43ec1652b7d71044084f6063d9",
+    "caadmin05":"0x872f581698623e252c749b1b772b9e4d02766381b69fc33aed0ff4f8533bc20f",
 }
 companyid = {
     "companyadmin":"xtuxtuxtu",
 }
 companykey = {
-    "companyadmin":"234",
+    "companyadmin":"0x72312f94db2835c2e78c85112d16870097212d211bddf5289b05ea6a3e40e546",
 }
 
 #caa下载简历后删除对应用户id的秘密份额
