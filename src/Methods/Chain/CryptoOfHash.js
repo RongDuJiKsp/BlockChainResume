@@ -22,14 +22,5 @@ const CryptoOfHash = {
         hash.update(Data);
         return hash.digest('hex');
     },
-    GetRandomKeyS: (RandNum) => {
-        let Buffer = SM3.digest(String(RandNum)).toString();
-        let Key=window.btoa(Buffer);
-        let  res="";
-        for(let i=0;i<Key.length;i++){
-            if(!(i%2)) res+=Key[i];
-        }
-        return res;
-    },
 }
 export default CryptoOfHash;

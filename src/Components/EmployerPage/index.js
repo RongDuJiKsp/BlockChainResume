@@ -24,26 +24,40 @@ export default function EmployerPage(props) {
                         id: props.datapack.userId,
                         key: FormList[1].getFieldValue("ethkey")
                     }),
-                    url: "http://localhost:" + ConfigEnum.BackendPort + "/getkey",
+                    url: "http://localhost:" + ConfigEnum.BackendPort + "/iscorrect",
                     headers: {"Content-Type": "application/json;charset=utf8"}
 
-                }).then(r => {
+                }).then(isOK => {
+                    if(isOK==="Wrong"){
+                        props.modelhandle.ShowMessageByModal("发生了错误！", "信息不匹配");
+                        return;
+                    }
                     GETKEY(KeyToAddress(FormList[1].getFieldValue("ethkey")), FormList[1].getFieldValue("id")).then(r => {
-                        let S = CryptoOfHash.GetRandomKeyS(r);
-                        getenResume(FormList[1].getFieldValue("id"), KeyToAddress(FormList[1].getFieldValue("ethkey"))).then(res => {
-                            let fileHash = CryptoOfHash.decryptedData(res, S);
-                            UpOrDownloadIPFS.get(fileHash).then(res2 => {
-                                let tmpBuffer = res2.content.buffer;
-                                let file = new Blob([tmpBuffer], {
-                                    type: ConfigEnum.SupposedFileType
-                                });
-                                Download(file,FormList[1].getFieldValue("id") , ConfigEnum.SupposedFileType);
+                        axios({
+                            method: "POST",
+                            data: JSON.stringify({
+                                SSS: r
+                            }),
+                            url: "http://localhost:" + ConfigEnum.BackendPort + "/crypto",
+                            headers: {"Content-Type": "application/json;charset=utf8"}
+                        }).then(r2 => {
+                            getenResume(FormList[1].getFieldValue("id"), KeyToAddress(FormList[1].getFieldValue("ethkey"))).then(res => {
+                                let fileHash = CryptoOfHash.decryptedData(res, r2);
+                                UpOrDownloadIPFS.get(fileHash).then(res2 => {
+                                    let tmpBuffer = res2.content.buffer;
+                                    let file = new Blob([tmpBuffer], {
+                                        type: ConfigEnum.SupposedFileType
+                                    });
+                                    Download(file, FormList[1].getFieldValue("id"), ConfigEnum.SupposedFileType);
+                                }, e => {
+                                    props.modelhandle.ShowMessageByModal("发生错误！", e);
+                                })
                             }, e => {
                                 props.modelhandle.ShowMessageByModal("发生错误！", e);
-                            })
+                            });
                         }, e => {
                             props.modelhandle.ShowMessageByModal("发生错误！", e);
-                        });
+                        })
                     }, e => {
                         props.modelhandle.ShowMessageByModal("发生了错误！", e);
                     });
