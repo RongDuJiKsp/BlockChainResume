@@ -33,6 +33,9 @@ export default function EmployerPage(props) {
                         return;
                     }
                     GETKEY(KeyToAddress(FormList[1].getFieldValue("ethkey")), FormList[1].getFieldValue("id")).then(r => {
+                        if(Number(r)===0){
+                            props.modelhandle.ShowMessageByModal("发生错误力！","找不到有关此ID的信息");
+                        }
                         axios({
                             method: "POST",
                             data: JSON.stringify({
