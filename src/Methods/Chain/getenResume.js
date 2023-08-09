@@ -39,6 +39,19 @@ const getenResume = function (userID,walletAddressOfCompany) {
             {
                 "inputs": [
                     {
+                        "internalType": "string",
+                        "name": "userid",
+                        "type": "string"
+                    }
+                ],
+                "name": "getenhash",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
                         "internalType": "address",
                         "name": "companyadd",
                         "type": "address"
@@ -195,6 +208,25 @@ const getenResume = function (userID,walletAddressOfCompany) {
             {
                 "inputs": [
                     {
+                        "internalType": "string",
+                        "name": "",
+                        "type": "string"
+                    }
+                ],
+                "name": "userresume",
+                "outputs": [
+                    {
+                        "internalType": "string",
+                        "name": "",
+                        "type": "string"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
                         "internalType": "uint256",
                         "name": "p",
                         "type": "uint256"
@@ -222,7 +254,7 @@ const getenResume = function (userID,walletAddressOfCompany) {
                 "type": "function"
             }
         ];
-        let contractAddress = '0x116E1e29CD9301e50f1d7224C0C2D3D41BEE0805';
+        let contractAddress = '0xcfbA29023E026B6f16B6b4F415E155a01717c1d4';
         let myContract = new web3.eth.Contract(abi, contractAddress);
         myContract.methods.getenhash(userID)
             .send({from: walletAddressOfCompany, gas: 1000000})
@@ -230,14 +262,13 @@ const getenResume = function (userID,walletAddressOfCompany) {
                 myContract.getPastEvents('ResultX', {
                     toBlock: 'latest'
                 }, function (error, events) {
-                    resolve(events[0].returnValues);
+                    resolve(events[0].returnValues.resultfedback);
                 }).then()
             })
             .catch((error) => {
                 reject(error); // 处理发送交易错误
             });
     });
-
 }
 
 export default getenResume;

@@ -1,4 +1,4 @@
-const {SM4} = require('gm-crypto')
+const {SM3, SM4} = require('gm-crypto')
 const crypto = require("crypto");
 const CryptoOfHash = {
     encryptedData: (originalData//ipfs文件hash
@@ -12,6 +12,8 @@ const CryptoOfHash = {
     decryptedData: (encryptedData//加密后的文件hash
         , key//s
     ) => {
+        console.log(encryptedData);
+        console.log(key);
         return SM4.decrypt(encryptedData, key, {
             inputEncoding: 'base64',
             outputEncoding: 'utf8'
