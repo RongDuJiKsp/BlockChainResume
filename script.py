@@ -257,6 +257,19 @@ keynew = {}#存id—加密后的eth私钥键值对，永久存
 idtimes ={}#记录id被审核了几次
 idrecord ={}#记录对应id被哪些ca账号审核了
 
+#对随机数进行加密
+@app.route('/crypto',methods=["POST","GET"])
+def getS():
+    data1 = request.get_json()
+    S1=data1['SSS']
+    SS1=""
+    SString1=hash_msg(str(S1))
+    i=0
+    while(i<len(SString1)):
+        SS1=SS1+SString1[i]
+        i=i+2
+    return SS1
+
 #注册时存储id和密码
 @app.route('/signup',methods=["POST","GET"])
 def signup_data():
@@ -334,17 +347,17 @@ caaid = {
     "caadmin05":"secret",
 }
 caakey = {
-    "caadmin01":"0x72312f94db2835c2e78c85112d16870097212d211bddf5289b05ea6a3e40e546",
-    "caadmin02":"0x872f581698623e252c749b1b772b9e4d02766381b69fc33aed0ff4f8533bc20f",
-    "caadmin03":"0xbd65a811abb917e32cb0f41c312e75d74c4c5e43ec1652b7d71044084f6063d9",
-    "caadmin04":"0xa4f6edf1df594ce6c274694a9cf2e0a5ce91f691ed36695fd16c1a8c1953b039",
-    "caadmin05":"0xe2b63a08e34a06f370d1121412708330fe68c6fd6be6c6dfaf8c1fd50ec76de1",
+    "caadmin01":"jiangle",
+    "caadmin02":"qidyuanshenong",
+    "caadmin03":"woaiyuan(shen",
+    "caadmin04":"wr3rt&3w#@t",
+    "caadmin05":"t34rfe43r",
 }
 companyid = {
     "companyadmin":"xtuxtuxtu",
 }
 companykey = {
-    "companyadmin":"0x930c8928cdca0ceb603438a405c341537f14053d96c32b0964fb7719b68754a9",
+    "companyadmin":"234",
 }
 
 #caa下载简历后删除对应用户id的秘密份额
