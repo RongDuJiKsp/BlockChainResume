@@ -9,9 +9,6 @@ import CryptoOfHash from "../../Methods/Chain/CryptoOfHash";
 import CheckObj from "../../Methods/CheckObj";
 import GETKEY from "../../Methods/Chain/GETKEY";
 import KeyToAddress from "../../Methods/Chain/KeyToAddress";
-import getenResume from "../../Methods/Chain/getenResume";
-import {UpOrDownloadIPFS} from "../../Methods/Chain/upOrDownloadIPFS";
-import Download from "../../Methods/Download";
 
 export default function FIndKeyPage(props) {
     const [userID, setUserID] = useState("");

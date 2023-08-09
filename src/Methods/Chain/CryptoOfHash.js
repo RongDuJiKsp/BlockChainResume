@@ -1,4 +1,4 @@
-const {SM3, SM4} = require('gm-crypto')
+const {SM4} = require('gm-crypto')
 const crypto = require("crypto");
 const CryptoOfHash = {
     encryptedData: (originalData//ipfs文件hash
