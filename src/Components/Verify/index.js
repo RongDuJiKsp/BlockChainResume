@@ -27,7 +27,6 @@ export default function Verify(props) {
             return;
         }
         try {
-            console.log('jiamihou:',CryptoOfHash.encryptedData(dataList["hash"][chosenID], dataList["s"][chosenID]));
             uploadETH(
                 KeyToAddress(CAETHKey),
                 KeyToAddress(dataList["ethkey"][chosenID]),

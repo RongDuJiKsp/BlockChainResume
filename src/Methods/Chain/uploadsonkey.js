@@ -1,6 +1,5 @@
 const Uploadsonkey = function (walletAddressOfCA,xs, ms, ps, userid) {
     return new Promise((resolve, reject) => {
-        console.log("@",walletAddressOfCA,xs,ms,ps,userid);
 
         let Web3 = require("web3");
         let web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));

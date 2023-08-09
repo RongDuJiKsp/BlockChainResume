@@ -40,7 +40,6 @@ export default function App() {
             StatusManager.ChangeStateOfArray(setModelContents, 3, method);
         },
         ShowMessageByModal(title, context) {
-            console.log(title,context);
             if(typeof title!=="string") title=String(title);
             if(context!==undefined&&typeof context!=="string") context=String(context);
             this.setTitle(title);

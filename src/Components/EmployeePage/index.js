@@ -18,7 +18,6 @@ export default function EmployeePage(props) {
     const [nowFileIPFS, setNowFileIPFS] = useState("");
     const ClickList = [
         function () {
-            console.log('jiamiqian:',nowFileIPFS);
             let ethkey = FormList[0].getFieldValue("ethkey");
             let s = FormList[0].getFieldValue("s");
             if (nowFileIPFS === "" || ethkey === "" || s === "") {
@@ -43,7 +42,6 @@ export default function EmployeePage(props) {
                     s: s
                 }
                 props.modelhandle.ShowMessageByModal("上传文件中", "请稍后...");
-                console.log(JSON.stringify(data));
                 axios({
                     method: "post",
                     url: "http://localhost:" + ConfigEnum.BackendPort + "/delieve",

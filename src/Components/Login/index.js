@@ -36,7 +36,6 @@ export default function Login(props) {
                 props.modelhandle.ShowMessageByModal("验证错误", r.data);
             }
         }, e => {
-            console.log(e);
             props.modelhandle.ShowMessageByModal("发生错误了", e);
         })
     }

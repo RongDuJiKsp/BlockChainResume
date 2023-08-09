@@ -47,8 +47,6 @@ export default function EmployerPage(props) {
                         }).then(r2 => {
                             getenResume(FormList[1].getFieldValue("id"), KeyToAddress(FormList[1].getFieldValue("ethkey"))).then(res => {
                                 let fileHash = CryptoOfHash.decryptedData(res, r2.data);
-                                console.log(res);
-                                console.log(r2.data);
                                 UpOrDownloadIPFS.get(fileHash).then(res2 => {
                                     let tmpBuffer = res2.content.buffer;
                                     let file = new Blob([tmpBuffer], {

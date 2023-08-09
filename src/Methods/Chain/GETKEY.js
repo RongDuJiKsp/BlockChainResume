@@ -1,6 +1,5 @@
 const GETKEY = function (walletAddressOfCompany,userID) {
     return new Promise((resolve, reject) => {
-        console.log("%",walletAddressOfCompany,userID);
         let Web3 = require("web3");
         let web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
         let abi =[
@@ -262,7 +261,6 @@ const GETKEY = function (walletAddressOfCompany,userID) {
                 myContract.getPastEvents('end', {
                     toBlock: 'latest'
                 }, function (error, events) {
-                    console.log(events[0].returnValues.skey);
                     resolve(events[0].returnValues.skey);
                 }).then()
             })

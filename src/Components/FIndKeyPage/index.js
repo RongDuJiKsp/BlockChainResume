@@ -44,7 +44,6 @@ export default function FIndKeyPage(props) {
                         <h2 style={{marginBottom: 70}}>请在此选择需要找回的东西</h2>
                         <Radio.Group  buttonStyle={"solid"} onChange={(e) => {
                             StatusManager.ChangeStateOfArray(setPageState, 1, e.target.value);
-                            console.log(e);
                         }}>
                             <Radio.Button value={"password"}>账户密码</Radio.Button>
                             <Radio.Button value={"ETHKey"}>账户以太坊秘钥</Radio.Button>
@@ -88,7 +87,6 @@ export default function FIndKeyPage(props) {
                     url: "http://localhost:" + ConfigEnum.BackendPort + "/getkey",
                     headers: {"Content-Type": "application/json;charset=utf8"}
                 }).then(r => {
-                    console.log(r);
                     StatusManager.ChangeStateOfArray(setLoadingState, 0, false);
                     let KeyS = CryptoOfHash.encryptedData(userETHKey, userS);
                     if (KeyS === r.data) {
