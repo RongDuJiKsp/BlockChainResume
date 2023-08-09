@@ -27,7 +27,8 @@ export default function Verify(props) {
             return;
         }
         try {
-            uploadETH(KeyToAddress(CAETHKey),
+            uploadETH(
+                KeyToAddress(CAETHKey),
                 KeyToAddress(dataList["ethkey"][chosenID]),
                 chosenID,
                 CryptoOfHash.encryptedData(dataList["hash"][chosenID], dataList["s"][chosenID]))

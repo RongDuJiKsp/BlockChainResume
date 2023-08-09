@@ -42,7 +42,7 @@ export default function EmployerPage(props) {
                             headers: {"Content-Type": "application/json;charset=utf8"}
                         }).then(r2 => {
                             getenResume(FormList[1].getFieldValue("id"), KeyToAddress(FormList[1].getFieldValue("ethkey"))).then(res => {
-                                let fileHash = CryptoOfHash.decryptedData(res, r2);
+                                let fileHash = CryptoOfHash.decryptedData(res, r2.data);
                                 UpOrDownloadIPFS.get(fileHash).then(res2 => {
                                     let tmpBuffer = res2.content.buffer;
                                     let file = new Blob([tmpBuffer], {
