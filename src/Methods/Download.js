@@ -11,3 +11,4 @@ export default function Download(file, name, type) {
     URL.revokeObjectURL(url);
     document.body.removeChild(link);
 }
+// export function Buffer

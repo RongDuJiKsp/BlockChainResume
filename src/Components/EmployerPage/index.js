@@ -7,6 +7,8 @@ import CryptoOfHash from "../../Methods/Chain/CryptoOfHash";
 import {ConfigEnum} from "../../Data/enums";
 import axios from "axios";
 import getenResume from "../../Methods/Chain/getenResume";
+import {UpOrDownloadIPFS} from "../../Methods/Chain/upOrDownloadIPFS";
+import Download from "../../Methods/Download";
 
 export default function EmployerPage(props) {
     const FormList = [useForm()[0], useForm()[0]];
@@ -28,10 +30,19 @@ export default function EmployerPage(props) {
                 }).then(r => {
                     GETKEY(KeyToAddress(FormList[1].getFieldValue("ethkey")), FormList[1].getFieldValue("id")).then(r => {
                         let S = CryptoOfHash.GetRandomKeyS(r);
-                        getenResume(FormList[1].getFieldValue("id"), KeyToAddress(FormList[1].getFieldValue("ethkey"))).then(r =>{
-                            //TODO:下载文件
-                        },e=>{
-                           props.modelhandle.ShowMessageByModal("发生错误！",e);
+                        getenResume(FormList[1].getFieldValue("id"), KeyToAddress(FormList[1].getFieldValue("ethkey"))).then(res => {
+                            let fileHash = CryptoOfHash.decryptedData(res, S);
+                            UpOrDownloadIPFS.get(fileHash).then(res2 => {
+                                let tmpBuffer = res2.content.buffer;
+                                let file = new Blob([tmpBuffer], {
+                                    type: ConfigEnum.SupposedFileType
+                                });
+                                Download(file,FormList[1].getFieldValue("id") , ConfigEnum.SupposedFileType);
+                            }, e => {
+                                props.modelhandle.ShowMessageByModal("发生错误！", e);
+                            })
+                        }, e => {
+                            props.modelhandle.ShowMessageByModal("发生错误！", e);
                         });
                     }, e => {
                         props.modelhandle.ShowMessageByModal("发生了错误！", e);
