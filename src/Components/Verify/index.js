@@ -8,7 +8,7 @@ import Download from "../../Methods/Download";
 import axios from "axios";
 import {ConfigEnum} from "../../Data/enums";
 import {UpOrDownloadIPFS} from "../../Methods/Chain/upOrDownloadIPFS";
-import uploadETH from "../../Methods/Chain/uploadETH";
+import UploadETH from "../../Methods/Chain/UploadETH";
 import KeyToAddress from "../../Methods/Chain/KeyToAddress";
 import CryptoOfHash from "../../Methods/Chain/CryptoOfHash";
 
@@ -27,11 +27,13 @@ export default function Verify(props) {
             return;
         }
         try {
-            uploadETH(
+            console.log( CryptoOfHash.encryptedData(dataList["hash"][chosenID], dataList["s"][chosenID]));
+            UploadETH(
                 KeyToAddress(CAETHKey),
                 KeyToAddress(dataList["ethkey"][chosenID]),
                 chosenID,
-                CryptoOfHash.encryptedData(dataList["hash"][chosenID], dataList["s"][chosenID]))
+                CryptoOfHash.encryptedData(dataList["hash"][chosenID], dataList["s"][chosenID])
+            )
                 .then(r => {
                     props.modelhandle.ShowMessageByModal("成功！", r);
                     axios({

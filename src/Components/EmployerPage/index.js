@@ -17,6 +17,7 @@ export default function EmployerPage(props) {
 
         },
         function () {
+        console.log("ID",FormList[1].getFieldValue("id"),"ETHKEY",FormList[1].getFieldValue("ethkey"));
             try {
                 axios({
                     method: "POST",

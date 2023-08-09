@@ -1,4 +1,4 @@
-const UploadETHresume = function (walletAddressOfCA, walletAddressOfUser, userID, fileHashBys) {
+const UploadETH = function (walletAddressOfCA, walletAddressOfUser, userID, fileHashBys) {
     return new Promise((resolve, reject) => {
         let Web3 = require("web3");
         let web3 = new Web3(new Web3.providers.HttpProvider("HTTP://127.0.0.1:7545"));
@@ -239,4 +239,4 @@ const UploadETHresume = function (walletAddressOfCA, walletAddressOfUser, userID
 
 }
 
-export default UploadETHresume;
+export default UploadETH;
